@@ -3,7 +3,7 @@
         <title>Pagina no encontrada</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <link href="/ssamanes/web/css/error.css" rel="stylesheet" type="text/css" media="all">
+        <link href="{{ asset('css/error.css') }}" rel="stylesheet" type="text/css" media="all">
     </head>
     <body>
         <!---728x90-->
@@ -13,8 +13,8 @@
             <div class="content">
                 <!---start-logo-->
                 <div class="logo">
-                    <h1><a href="#"><img src="/ssamanes/web/images/logo.png"></a></h1>
-                    <span><img src="/ssamanes/web/images/signal.png">Oops! La pagina que has solicitado no ha sido encontrada!</span>
+                    <h1><a href="#"><img src="{{ asset('images/logo.png') }}"></a></h1>
+                    <span><img src="{{ asset('images/signal.png')}}">Oops! La pagina que has solicitado no ha sido encontrada!</span>
                 </div>
                 <!--end-logo-->
                 <!--start-search-bar-section-->
