@@ -9,10 +9,16 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller {
 
     /**
-     * @Route("/temp", name="login")
+     * @Route("/temp", name="home")
+     */
+    public function homeAction(Request $request) {
+        return $this->render("temp/temp.html.twig");
+    }
+
+    /**
+     * @Route("/", name="temp")
      */
     public function tempAction(Request $request) {
         return $this->render("temp/temp.html.twig");
     }
-
 }
