@@ -4,3 +4,4 @@ app/cache*
 app/logs*
 # /nbproject/private/
 nbproject/*
+web/cc.php
