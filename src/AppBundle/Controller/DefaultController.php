@@ -5,18 +5,20 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class DefaultController extends Controller {
 
     /**
-     * @Route("/temp", name="home")
+     * @Route("/", name="home")
      */
     public function homeAction(Request $request) {
         return $this->render("temp/temp.html.twig");
     }
 
     /**
-     * @Route("/", name="temp")
+     * @Route("/temp", name="temp")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function tempAction(Request $request) {
         return $this->render("temp/temp.html.twig");
