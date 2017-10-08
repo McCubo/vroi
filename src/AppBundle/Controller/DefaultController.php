@@ -11,6 +11,7 @@ class DefaultController extends Controller {
 
     /**
      * @Route("/", name="home")
+     * @Security("has_role('ROLE_USER')")
      */
     public function homeAction(Request $request) {
         return $this->render("temp/temp.html.twig");
