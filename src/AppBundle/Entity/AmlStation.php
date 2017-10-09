@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="aml_station", uniqueConstraints={@ORM\UniqueConstraint(name="sta_name_UNIQUE", columns={"sta_name"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class AmlStation
 {
@@ -35,5 +36,11 @@ class AmlStation
      */
     private $staId;
 
-
+   /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->staCreatedDate = new \DateTime();
+    }
 }

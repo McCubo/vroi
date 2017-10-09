@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="aml_service", uniqueConstraints={@ORM\UniqueConstraint(name="ser_name_UNIQUE", columns={"ser_name"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class AmlService
 {
@@ -49,5 +50,19 @@ class AmlService
      */
     private $serId;
 
+   /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->serCreatedDate = new \DateTime();
+    }
 
+   /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->serUpdatedDate = new \DateTime();
+    }
 }

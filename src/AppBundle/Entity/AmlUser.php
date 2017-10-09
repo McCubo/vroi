@@ -95,7 +95,7 @@ class AmlUser implements AdvancedUserInterface, \Serializable {
         
     }
 
-    public function getPassword(): string {
+    public function getPassword() {
         return $this->usePassword;
     }
 
@@ -107,7 +107,7 @@ class AmlUser implements AdvancedUserInterface, \Serializable {
         return null;
     }
 
-    public function getUsername(): string {
+    public function getUsername() {
         return $this->useName;
     }
 
@@ -131,22 +131,22 @@ class AmlUser implements AdvancedUserInterface, \Serializable {
     }
 
     //  checks whether the user's account has expired
-    public function isAccountNonExpired(): bool {
+    public function isAccountNonExpired() {
         return true;
     }
 
     //  checks whether the user is locked;
-    public function isAccountNonLocked(): bool {
+    public function isAccountNonLocked() {
         return true;
     }
 
     //  checks whether the user's credentials has expired;
-    public function isCredentialsNonExpired(): bool {
+    public function isCredentialsNonExpired() {
         return true;
     }
 
     //  checks whether the user is enabled.
-    public function isEnabled(): bool {
+    public function isEnabled() {
         return $this->useStatus;
     }
 

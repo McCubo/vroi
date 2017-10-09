@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="aml_provider_contact", indexes={@ORM\Index(name="FK_provider_contact_provider", columns={"prc_pro_id"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks() 
  */
 class AmlProviderContact
 {
@@ -73,5 +74,20 @@ class AmlProviderContact
      */
     private $prcPro;
 
+   /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->prcCreatedDate = new \DateTime();
+    }
+
+   /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->prcUpdatedDate = new \DateTime();
+    }
 
 }

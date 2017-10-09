@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="aml_country", uniqueConstraints={@ORM\UniqueConstraint(name="cou_name_UNIQUE", columns={"cou_name"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class AmlCountry
 {
@@ -35,5 +36,11 @@ class AmlCountry
      */
     private $couId;
 
-
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->couCreatedDate = new \DateTime();
+    }
 }
