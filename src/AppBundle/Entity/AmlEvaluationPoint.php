@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="aml_evaluation_point", uniqueConstraints={@ORM\UniqueConstraint(name="evp_name_UNIQUE", columns={"evp_name"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class AmlEvaluationPoint
 {
@@ -49,5 +50,20 @@ class AmlEvaluationPoint
      */
     private $evpId;
 
+   /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->evpCreatedDate = new \DateTime();
+    }
+
+   /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->evpUpdatedDate = new \DateTime();
+    }
 
 }

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="aml_provider", uniqueConstraints={@ORM\UniqueConstraint(name="pro_name_UNIQUE", columns={"pro_name"})}, indexes={@ORM\Index(name="FK_provider_afiliation", columns={"pro_pra_id"}), @ORM\Index(name="FK_provider_group", columns={"pro_prg_id"}), @ORM\Index(name="FK_provider_type", columns={"pro_prt_id"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class AmlProvider
 {
@@ -114,5 +115,19 @@ class AmlProvider
      */
     private $proPrt;
 
+   /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->proCreatedDate = new \DateTime();
+    }
 
+   /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->proUpdatedDate = new \DateTime();
+    }
 }

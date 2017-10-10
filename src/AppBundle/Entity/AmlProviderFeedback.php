@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="aml_provider_feedback", indexes={@ORM\Index(name="FK_prf_pro_id", columns={"prf_pro_id"}), @ORM\Index(name="FK_prf_use_id", columns={"prf_use_id"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class AmlProviderFeedback
 {
@@ -55,5 +56,11 @@ class AmlProviderFeedback
      */
     private $prfUse;
 
-
+   /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->prfDate = new \DateTime();
+    }
 }

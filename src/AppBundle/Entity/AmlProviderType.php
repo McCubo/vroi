@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="aml_provider_type", uniqueConstraints={@ORM\UniqueConstraint(name="prt_name_UNIQUE", columns={"prt_name"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class AmlProviderType
 {
@@ -56,5 +57,19 @@ class AmlProviderType
      */
     private $prtId;
 
+   /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->prtCreatedDate = new \DateTime();
+    }
 
+   /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->prtUpdatedDate = new \DateTime();
+    }
 }

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="aml_city", indexes={@ORM\Index(name="fk_aml_city_cou_idx", columns={"cit_cou_id"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class AmlCity
 {
@@ -45,5 +46,12 @@ class AmlCity
      */
     private $citCou;
 
-
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->citCreatedDate = new \DateTime();
+    }
+    
 }

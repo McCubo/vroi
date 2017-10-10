@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="aml_rol", uniqueConstraints={@ORM\UniqueConstraint(name="rol_name_UNIQUE", columns={"rol_name"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class AmlRol {
 
@@ -53,4 +54,19 @@ class AmlRol {
         return $this->rolName;
     }
 
+   /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->rolCreatedDate = new \DateTime();
+    }
+
+   /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->rolUpdatedDate = new \DateTime();
+    }
 }

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="aml_provider_afiliation", uniqueConstraints={@ORM\UniqueConstraint(name="afi_name_UNIQUE", columns={"pra_name"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class AmlProviderAfiliation
 {
@@ -55,6 +56,21 @@ class AmlProviderAfiliation
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $praId;
+    
+   /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->praCreatedDate = new \DateTime();
+    }
 
+   /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->praUpdatedDate = new \DateTime();
+    }
 
 }

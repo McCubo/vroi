@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="aml_provider_group", uniqueConstraints={@ORM\UniqueConstraint(name="prg_name_UNIQUE", columns={"prg_name"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class AmlProviderGroup
 {
@@ -49,5 +50,19 @@ class AmlProviderGroup
      */
     private $prgId;
 
+   /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->prgCreatedAt = new \DateTime();
+    }
 
+   /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->prgUpdatedAt = new \DateTime();
+    }
 }

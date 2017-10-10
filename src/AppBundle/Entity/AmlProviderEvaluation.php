@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="aml_provider_evaluation", indexes={@ORM\Index(name="FK_pre_provider", columns={"pre_pro_id"}), @ORM\Index(name="FK_pre_user", columns={"pre_use_id"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class AmlProviderEvaluation
 {
@@ -48,5 +49,12 @@ class AmlProviderEvaluation
      */
     private $preUse;
 
+   /**
+     * @ORM\PrePersist
+     */
+    public function setDateValue()
+    {
+        $this->preDate = new \DateTime();
+    }
 
 }
