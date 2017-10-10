@@ -1,3 +1,3 @@
 <?php
 
-passthru('rm -rfv /home/cubias/workspace/amlog/app/cache/*');
+passthru('rm -rfv /home/cubias/workspace/alg/app/cache/*');
