@@ -14,14 +14,19 @@ class DefaultController extends Controller {
      * @Security("has_role('ROLE_USER')")
      */
     public function homeAction(Request $request) {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+        $user = $this->getUser();
         return $this->render("temp/temp.html.twig");
     }
 
     /**
-     * @Route("/temp", name="temp")
+     * @Route("/temp/admin", name="temp")
      * @Security("has_role('ROLE_ADMIN')")
      */
     public function tempAction(Request $request) {
         return $this->render("temp/temp.html.twig");
     }
+
 }

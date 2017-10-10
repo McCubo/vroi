@@ -149,5 +149,8 @@ class AmlUser implements AdvancedUserInterface, \Serializable {
     public function isEnabled() {
         return $this->useStatus;
     }
-
+    
+    public function getPrintValue() {
+        return $this->useEmail . "(". $this->useName . ")";
+    }
 }
