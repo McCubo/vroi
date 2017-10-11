@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class AmlProviderGroup
-{
+class AmlProviderGroup {
+
     /**
      * @var string
      *
@@ -50,19 +50,58 @@ class AmlProviderGroup
      */
     private $prgId;
 
-   /**
+    /**
      * @ORM\PrePersist
      */
-    public function setCreatedAtValue()
-    {
+    public function setCreatedAtValue() {
         $this->prgCreatedAt = new \DateTime();
     }
 
-   /**
+    /**
      * @ORM\PreUpdate
      */
-    public function setUpdatedAtValue()
-    {
+    public function setUpdatedAtValue() {
         $this->prgUpdatedAt = new \DateTime();
     }
+
+    function getPrgName() {
+        return $this->prgName;
+    }
+
+    function getPrgStatus() {
+        return $this->prgStatus;
+    }
+
+    function getPrgCreatedAt() {
+        return $this->prgCreatedAt;
+    }
+
+    function getPrgUpdatedAt() {
+        return $this->prgUpdatedAt;
+    }
+
+    function getPrgId() {
+        return $this->prgId;
+    }
+
+    function setPrgName($prgName) {
+        $this->prgName = $prgName;
+    }
+
+    function setPrgStatus($prgStatus) {
+        $this->prgStatus = $prgStatus;
+    }
+
+    function setPrgCreatedAt(\DateTime $prgCreatedAt) {
+        $this->prgCreatedAt = $prgCreatedAt;
+    }
+
+    function setPrgUpdatedAt(\DateTime $prgUpdatedAt) {
+        $this->prgUpdatedAt = $prgUpdatedAt;
+    }
+
+    function setPrgId($prgId) {
+        $this->prgId = $prgId;
+    }
+
 }

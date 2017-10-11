@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class AmlCountry
-{
+class AmlCountry {
+
     /**
      * @var string
      *
@@ -39,8 +39,36 @@ class AmlCountry
     /**
      * @ORM\PrePersist
      */
-    public function setCreatedAtValue()
-    {
+    public function setCreatedAtValue() {
         $this->couCreatedDate = new \DateTime();
     }
+
+    function getCouName() {
+        return $this->couName;
+    }
+
+    function getCouCreatedDate() {
+        return $this->couCreatedDate;
+    }
+
+    function getCouId() {
+        return $this->couId;
+    }
+
+    function setCouName($couName) {
+        $this->couName = $couName;
+    }
+
+    function setCouCreatedDate(\DateTime $couCreatedDate) {
+        $this->couCreatedDate = $couCreatedDate;
+    }
+
+    function setCouId($couId) {
+        $this->couId = $couId;
+    }
+
+    public function __toString() {
+        return $this->couName;
+    }
+
 }

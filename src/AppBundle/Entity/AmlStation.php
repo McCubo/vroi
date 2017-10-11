@@ -43,4 +43,29 @@ class AmlStation
     {
         $this->staCreatedDate = new \DateTime();
     }
+    function getStaName() {
+        return $this->staName;
+    }
+
+    function getStaCreatedDate() {
+        return $this->staCreatedDate;
+    }
+
+    function getStaId() {
+        return $this->staId;
+    }
+
+    function setStaName($staName) {
+        $this->staName = $staName;
+    }
+
+    function setStaCreatedDate(\DateTime $staCreatedDate) {
+        $this->staCreatedDate = $staCreatedDate;
+    }
+
+    function setStaId($staId) {
+        $this->staId = $staId;
+    }
+
+
 }

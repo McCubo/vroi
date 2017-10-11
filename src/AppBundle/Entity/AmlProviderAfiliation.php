@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class AmlProviderAfiliation
-{
+class AmlProviderAfiliation {
+
     /**
      * @var string
      *
@@ -56,21 +56,67 @@ class AmlProviderAfiliation
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $praId;
-    
-   /**
+
+    /**
      * @ORM\PrePersist
      */
-    public function setCreatedAtValue()
-    {
+    public function setCreatedAtValue() {
         $this->praCreatedDate = new \DateTime();
     }
 
-   /**
+    /**
      * @ORM\PreUpdate
      */
-    public function setUpdatedAtValue()
-    {
+    public function setUpdatedAtValue() {
         $this->praUpdatedDate = new \DateTime();
+    }
+
+    function getPraName() {
+        return $this->praName;
+    }
+
+    function getPraDescription() {
+        return $this->praDescription;
+    }
+
+    function getPraStatus() {
+        return $this->praStatus;
+    }
+
+    function getPraCreatedDate() {
+        return $this->praCreatedDate;
+    }
+
+    function getPraUpdatedDate() {
+        return $this->praUpdatedDate;
+    }
+
+    function getPraId() {
+        return $this->praId;
+    }
+
+    function setPraName($praName) {
+        $this->praName = $praName;
+    }
+
+    function setPraDescription($praDescription) {
+        $this->praDescription = $praDescription;
+    }
+
+    function setPraStatus($praStatus) {
+        $this->praStatus = $praStatus;
+    }
+
+    function setPraCreatedDate(\DateTime $praCreatedDate) {
+        $this->praCreatedDate = $praCreatedDate;
+    }
+
+    function setPraUpdatedDate(\DateTime $praUpdatedDate) {
+        $this->praUpdatedDate = $praUpdatedDate;
+    }
+
+    function setPraId($praId) {
+        $this->praId = $praId;
     }
 
 }

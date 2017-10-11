@@ -499,3 +499,8 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2017-10-08 12:29:28
+ALTER TABLE `db_alg`.`aml_user` 
+ADD COLUMN `use_confirmation_date` DATETIME NULL AFTER `use_sta_id`;
+
+ALTER TABLE `db_alg`.`aml_user` 
+ADD COLUMN `use_expiration_date` DATETIME NULL AFTER `use_confirmation_date`;

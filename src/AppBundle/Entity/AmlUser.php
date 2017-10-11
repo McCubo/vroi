@@ -91,6 +91,20 @@ class AmlUser implements AdvancedUserInterface, \Serializable {
      */
     private $useSta;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="use_confirmation_date", type="datetime", nullable=true)
+     */
+    private $useConfirmationDate;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="use_expiration_date", type="datetime", nullable=true)
+     */
+    private $useExpirationDate;
+
     public function eraseCredentials() {
         
     }
@@ -132,12 +146,12 @@ class AmlUser implements AdvancedUserInterface, \Serializable {
 
     //  checks whether the user's account has expired
     public function isAccountNonExpired() {
-        return true;
+        return $this->useExpirationDate == null;
     }
 
     //  checks whether the user is locked;
     public function isAccountNonLocked() {
-        return true;
+        return $this->useConfirmationDate != null;
     }
 
     //  checks whether the user's credentials has expired;
@@ -149,8 +163,9 @@ class AmlUser implements AdvancedUserInterface, \Serializable {
     public function isEnabled() {
         return $this->useStatus;
     }
-    
+
     public function getPrintValue() {
-        return $this->useEmail . "(". $this->useName . ")";
+        return $this->useEmail . "(" . $this->useName . ")";
     }
+
 }

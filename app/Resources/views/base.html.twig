@@ -43,32 +43,32 @@
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
                             <li>
-                                <a href="1-index.html"><i class="fa fa-dashboard fa-fw"></i> Home</a>
+                                <a href="{{ path('home') }}"><i class="fa fa-dashboard fa-fw"></i> Home</a>
                             </li>
                             {% if is_granted('ROLE_ADMIN') %}
                             <li>
                                 <a href="{{ path('provider_index') }}"><i class="fa fa-save fa-fw"></i> Add provider</a>
                             </li>
                             <li>
-                                <a href="{{ path('pro_type_index') }}"><i class="fa fa-cogs fa-fw"></i> Configure Provider Type</a>
+                                <a href="{{ path('admin_provider_type_index') }}"><i class="fa fa-cogs fa-fw"></i> Configure Provider Type</a>
                             </li>
                             <li>
-                                <a href="{{ path('pro_group_index') }}"><i class="fa fa-object-group fa-fw"></i> Configure Provider Group</a>
+                                <a href="{{ path('admin_provider_group_index') }}"><i class="fa fa-object-group fa-fw"></i> Configure Provider Group</a>
                             </li>
                             <li>
-                                <a href="{{ path('pro_afiliation_index') }}"><i class="fa fa-exchange fa-fw"></i> Configure Provider Afiliation</a>
+                                <a href="{{ path('admin_provider_afiliation_index') }}"><i class="fa fa-exchange fa-fw"></i> Configure Provider Afiliation</a>
                             </li>
                             <li>
-                                <a href="{{ path('pro_services_index') }}"><i class="fa fa-server fa-fw"></i> Configure Provider Services</a>
+                                <a href="{{ path('admin_service_index') }}"><i class="fa fa-server fa-fw"></i> Configure Provider Services</a>
                             </li>
                             <li>
-                                <a href="{{ path('country_index') }}"><i class="fa fa-flag-o fa-fw"></i> Configure Countries</a>
+                                <a href="{{ path('admin_country_index') }}"><i class="fa fa-flag-o fa-fw"></i> Configure Countries</a>
                             </li>
                             <li>
-                                <a href="{{ path('city_index') }}"><i class="fa fa-building fa-fw"></i> Configure Cities</a>
+                                <a href="{{ path('admin_city_index') }}"><i class="fa fa-building fa-fw"></i> Configure Cities</a>
                             </li>
                             <li>
-                                <a href="{{ path('station_index') }}"><i class="fa fa-stack-overflow fa-fw"></i> Configure station</a>
+                                <a href="{{ path('admin_station_index') }}"><i class="fa fa-stack-overflow fa-fw"></i> Configure station</a>
                             </li>
                             <li>
                                 <a href="{{ path('user_index') }}"><i class="fa fa-users fa-fw"></i> Configure Users</a>

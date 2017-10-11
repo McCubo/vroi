@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class AmlService
-{
+class AmlService {
+
     /**
      * @var string
      *
@@ -50,19 +50,58 @@ class AmlService
      */
     private $serId;
 
-   /**
+    /**
      * @ORM\PrePersist
      */
-    public function setCreatedAtValue()
-    {
+    public function setCreatedAtValue() {
         $this->serCreatedDate = new \DateTime();
     }
 
-   /**
+    /**
      * @ORM\PreUpdate
      */
-    public function setUpdatedAtValue()
-    {
+    public function setUpdatedAtValue() {
         $this->serUpdatedDate = new \DateTime();
     }
+
+    function getSerName() {
+        return $this->serName;
+    }
+
+    function getSerStatus() {
+        return $this->serStatus;
+    }
+
+    function getSerCreatedDate() {
+        return $this->serCreatedDate;
+    }
+
+    function getSerUpdatedDate() {
+        return $this->serUpdatedDate;
+    }
+
+    function getSerId() {
+        return $this->serId;
+    }
+
+    function setSerName($serName) {
+        $this->serName = $serName;
+    }
+
+    function setSerStatus($serStatus) {
+        $this->serStatus = $serStatus;
+    }
+
+    function setSerCreatedDate(\DateTime $serCreatedDate) {
+        $this->serCreatedDate = $serCreatedDate;
+    }
+
+    function setSerUpdatedDate(\DateTime $serUpdatedDate) {
+        $this->serUpdatedDate = $serUpdatedDate;
+    }
+
+    function setSerId($serId) {
+        $this->serId = $serId;
+    }
+
 }

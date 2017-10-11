@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * AmlProviderType
@@ -11,12 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class AmlProviderType
-{
+class AmlProviderType {
+
     /**
      * @var string
      *
      * @ORM\Column(name="prt_name", type="string", length=45, nullable=false)
+     * @Assert\NotBlank
      */
     private $prtName;
 
@@ -24,6 +26,7 @@ class AmlProviderType
      * @var string
      *
      * @ORM\Column(name="prt_description", type="string", length=100, nullable=false)
+     * @Assert\NotBlank
      */
     private $prtDescription;
 
@@ -57,19 +60,63 @@ class AmlProviderType
      */
     private $prtId;
 
-   /**
+    /**
      * @ORM\PrePersist
      */
-    public function setCreatedAtValue()
-    {
+    public function setCreatedAtValue() {
         $this->prtCreatedDate = new \DateTime();
+        $this->prtStatus = 1;
     }
 
-   /**
+    /**
      * @ORM\PreUpdate
      */
-    public function setUpdatedAtValue()
-    {
+    public function setUpdatedAtValue() {
         $this->prtUpdatedDate = new \DateTime();
     }
+
+    function getPrtName() {
+        return $this->prtName;
+    }
+
+    function getPrtDescription() {
+        return $this->prtDescription;
+    }
+
+    function setPrtName($prtName) {
+        $this->prtName = $prtName;
+    }
+
+    function setPrtDescription($prtDescription) {
+        $this->prtDescription = $prtDescription;
+    }
+
+    function getPrtId() {
+        return $this->prtId;
+    }
+    function getPrtStatus() {
+        return $this->prtStatus;
+    }
+
+    function getPrtCreatedDate() {
+        return $this->prtCreatedDate;
+    }
+
+    function getPrtUpdatedDate() {
+        return $this->prtUpdatedDate;
+    }
+
+    function setPrtStatus($prtStatus) {
+        $this->prtStatus = $prtStatus;
+    }
+
+    function setPrtCreatedDate(\DateTime $prtCreatedDate) {
+        $this->prtCreatedDate = $prtCreatedDate;
+    }
+
+    function setPrtUpdatedDate(\DateTime $prtUpdatedDate) {
+        $this->prtUpdatedDate = $prtUpdatedDate;
+    }
+
+
 }

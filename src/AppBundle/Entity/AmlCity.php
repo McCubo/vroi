@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class AmlCity
-{
+class AmlCity {
+
     /**
      * @var string
      *
@@ -49,9 +49,40 @@ class AmlCity
     /**
      * @ORM\PrePersist
      */
-    public function setCreatedAtValue()
-    {
+    public function setCreatedAtValue() {
         $this->citCreatedDate = new \DateTime();
     }
-    
+
+    function getCitName() {
+        return $this->citName;
+    }
+
+    function getCitCreatedDate() {
+        return $this->citCreatedDate;
+    }
+
+    function getCitId() {
+        return $this->citId;
+    }
+
+    function getCitCou() {
+        return $this->citCou;
+    }
+
+    function setCitName($citName) {
+        $this->citName = $citName;
+    }
+
+    function setCitCreatedDate(\DateTime $citCreatedDate) {
+        $this->citCreatedDate = $citCreatedDate;
+    }
+
+    function setCitId($citId) {
+        $this->citId = $citId;
+    }
+
+    function setCitCou(\AppBundle\Entity\AmlCountry $citCou) {
+        $this->citCou = $citCou;
+    }
+
 }
