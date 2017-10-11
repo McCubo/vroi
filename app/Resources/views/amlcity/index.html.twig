@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Amlcities list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Citname</th>
+                <th>Citcreateddate</th>
+                <th>Citid</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for amlCity in amlCities %}
+            <tr>
+                <td><a href="{{ path('admin_city_show', { 'citId': amlCity.citId }) }}">{{ amlCity.citName }}</a></td>
+                <td>{% if amlCity.citCreatedDate %}{{ amlCity.citCreatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ amlCity.citId }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_city_show', { 'citId': amlCity.citId }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_city_edit', { 'citId': amlCity.citId }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_city_new') }}">Create a new amlCity</a>
+        </li>
+    </ul>
+{% endblock %}

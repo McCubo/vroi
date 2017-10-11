@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Amlprovidertype</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Prtname</th>
+                <td>{{ amlProviderType.prtName }}</td>
+            </tr>
+            <tr>
+                <th>Prtdescription</th>
+                <td>{{ amlProviderType.prtDescription }}</td>
+            </tr>
+            <tr>
+                <th>Prtstatus</th>
+                <td>{% if amlProviderType.prtStatus %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Prtcreateddate</th>
+                <td>{% if amlProviderType.prtCreatedDate %}{{ amlProviderType.prtCreatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Prtupdateddate</th>
+                <td>{% if amlProviderType.prtUpdatedDate %}{{ amlProviderType.prtUpdatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Prtid</th>
+                <td>{{ amlProviderType.prtId }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_provider_type_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_provider_type_edit', { 'prtId': amlProviderType.prtId }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

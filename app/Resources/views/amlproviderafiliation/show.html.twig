@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Amlproviderafiliation</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Praname</th>
+                <td>{{ amlProviderAfiliation.praName }}</td>
+            </tr>
+            <tr>
+                <th>Pradescription</th>
+                <td>{{ amlProviderAfiliation.praDescription }}</td>
+            </tr>
+            <tr>
+                <th>Prastatus</th>
+                <td>{% if amlProviderAfiliation.praStatus %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Pracreateddate</th>
+                <td>{% if amlProviderAfiliation.praCreatedDate %}{{ amlProviderAfiliation.praCreatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Praupdateddate</th>
+                <td>{% if amlProviderAfiliation.praUpdatedDate %}{{ amlProviderAfiliation.praUpdatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Praid</th>
+                <td>{{ amlProviderAfiliation.praId }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_provider_afiliation_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_provider_afiliation_edit', { 'praId': amlProviderAfiliation.praId }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

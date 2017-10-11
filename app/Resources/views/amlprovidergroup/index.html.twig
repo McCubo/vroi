@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Amlprovidergroups list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Prgname</th>
+                <th>Prgstatus</th>
+                <th>Prgcreatedat</th>
+                <th>Prgupdatedat</th>
+                <th>Prgid</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for amlProviderGroup in amlProviderGroups %}
+            <tr>
+                <td><a href="{{ path('admin_provider_group_show', { 'prgId': amlProviderGroup.prgId }) }}">{{ amlProviderGroup.prgName }}</a></td>
+                <td>{% if amlProviderGroup.prgStatus %}Yes{% else %}No{% endif %}</td>
+                <td>{% if amlProviderGroup.prgCreatedAt %}{{ amlProviderGroup.prgCreatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if amlProviderGroup.prgUpdatedAt %}{{ amlProviderGroup.prgUpdatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ amlProviderGroup.prgId }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_provider_group_show', { 'prgId': amlProviderGroup.prgId }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_provider_group_edit', { 'prgId': amlProviderGroup.prgId }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_provider_group_new') }}">Create a new amlProviderGroup</a>
+        </li>
+    </ul>
+{% endblock %}

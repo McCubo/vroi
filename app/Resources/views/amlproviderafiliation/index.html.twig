@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Amlproviderafiliations list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Praname</th>
+                <th>Pradescription</th>
+                <th>Prastatus</th>
+                <th>Pracreateddate</th>
+                <th>Praupdateddate</th>
+                <th>Praid</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for amlProviderAfiliation in amlProviderAfiliations %}
+            <tr>
+                <td><a href="{{ path('admin_provider_afiliation_show', { 'praId': amlProviderAfiliation.praId }) }}">{{ amlProviderAfiliation.praName }}</a></td>
+                <td>{{ amlProviderAfiliation.praDescription }}</td>
+                <td>{% if amlProviderAfiliation.praStatus %}Yes{% else %}No{% endif %}</td>
+                <td>{% if amlProviderAfiliation.praCreatedDate %}{{ amlProviderAfiliation.praCreatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if amlProviderAfiliation.praUpdatedDate %}{{ amlProviderAfiliation.praUpdatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ amlProviderAfiliation.praId }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_provider_afiliation_show', { 'praId': amlProviderAfiliation.praId }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_provider_afiliation_edit', { 'praId': amlProviderAfiliation.praId }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_provider_afiliation_new') }}">Create a new amlProviderAfiliation</a>
+        </li>
+    </ul>
+{% endblock %}

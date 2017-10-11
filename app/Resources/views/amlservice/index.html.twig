@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Amlservices list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Sername</th>
+                <th>Serstatus</th>
+                <th>Sercreateddate</th>
+                <th>Serupdateddate</th>
+                <th>Serid</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for amlService in amlServices %}
+            <tr>
+                <td><a href="{{ path('admin_service_show', { 'serId': amlService.serId }) }}">{{ amlService.serName }}</a></td>
+                <td>{% if amlService.serStatus %}Yes{% else %}No{% endif %}</td>
+                <td>{% if amlService.serCreatedDate %}{{ amlService.serCreatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if amlService.serUpdatedDate %}{{ amlService.serUpdatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ amlService.serId }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_service_show', { 'serId': amlService.serId }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_service_edit', { 'serId': amlService.serId }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_service_new') }}">Create a new amlService</a>
+        </li>
+    </ul>
+{% endblock %}

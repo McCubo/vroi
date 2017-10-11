@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Amlprovidertypes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Prtname</th>
+                <th>Prtdescription</th>
+                <th>Prtstatus</th>
+                <th>Prtcreateddate</th>
+                <th>Prtupdateddate</th>
+                <th>Prtid</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for amlProviderType in amlProviderTypes %}
+            <tr>
+                <td><a href="{{ path('admin_provider_type_show', { 'prtId': amlProviderType.prtId }) }}">{{ amlProviderType.prtName }}</a></td>
+                <td>{{ amlProviderType.prtDescription }}</td>
+                <td>{% if amlProviderType.prtStatus %}Yes{% else %}No{% endif %}</td>
+                <td>{% if amlProviderType.prtCreatedDate %}{{ amlProviderType.prtCreatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if amlProviderType.prtUpdatedDate %}{{ amlProviderType.prtUpdatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ amlProviderType.prtId }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_provider_type_show', { 'prtId': amlProviderType.prtId }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_provider_type_edit', { 'prtId': amlProviderType.prtId }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_provider_type_new') }}">Create a new amlProviderType</a>
+        </li>
+    </ul>
+{% endblock %}

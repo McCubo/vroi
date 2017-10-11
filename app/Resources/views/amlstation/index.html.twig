@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Amlstations list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Staname</th>
+                <th>Stacreateddate</th>
+                <th>Staid</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for amlStation in amlStations %}
+            <tr>
+                <td><a href="{{ path('admin_station_show', { 'staId': amlStation.staId }) }}">{{ amlStation.staName }}</a></td>
+                <td>{% if amlStation.staCreatedDate %}{{ amlStation.staCreatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ amlStation.staId }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_station_show', { 'staId': amlStation.staId }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_station_edit', { 'staId': amlStation.staId }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_station_new') }}">Create a new amlStation</a>
+        </li>
+    </ul>
+{% endblock %}

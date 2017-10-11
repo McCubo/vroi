@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Amlcountries list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Couname</th>
+                <th>Coucreateddate</th>
+                <th>Couid</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for amlCountry in amlCountries %}
+            <tr>
+                <td><a href="{{ path('admin_country_show', { 'couId': amlCountry.couId }) }}">{{ amlCountry.couName }}</a></td>
+                <td>{% if amlCountry.couCreatedDate %}{{ amlCountry.couCreatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ amlCountry.couId }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_country_show', { 'couId': amlCountry.couId }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_country_edit', { 'couId': amlCountry.couId }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_country_new') }}">Create a new amlCountry</a>
+        </li>
+    </ul>
+{% endblock %}

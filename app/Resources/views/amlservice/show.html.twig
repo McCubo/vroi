@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Amlservice</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Sername</th>
+                <td>{{ amlService.serName }}</td>
+            </tr>
+            <tr>
+                <th>Serstatus</th>
+                <td>{% if amlService.serStatus %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Sercreateddate</th>
+                <td>{% if amlService.serCreatedDate %}{{ amlService.serCreatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Serupdateddate</th>
+                <td>{% if amlService.serUpdatedDate %}{{ amlService.serUpdatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Serid</th>
+                <td>{{ amlService.serId }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_service_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_service_edit', { 'serId': amlService.serId }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

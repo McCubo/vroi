@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Amlprovidergroup</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Prgname</th>
+                <td>{{ amlProviderGroup.prgName }}</td>
+            </tr>
+            <tr>
+                <th>Prgstatus</th>
+                <td>{% if amlProviderGroup.prgStatus %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Prgcreatedat</th>
+                <td>{% if amlProviderGroup.prgCreatedAt %}{{ amlProviderGroup.prgCreatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Prgupdatedat</th>
+                <td>{% if amlProviderGroup.prgUpdatedAt %}{{ amlProviderGroup.prgUpdatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Prgid</th>
+                <td>{{ amlProviderGroup.prgId }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_provider_group_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_provider_group_edit', { 'prgId': amlProviderGroup.prgId }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
