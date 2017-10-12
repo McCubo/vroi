@@ -6,21 +6,19 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AmlProviderTypeType extends AbstractType
-{
+class AmlProviderTypeType extends AbstractType {
+
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder->add('prtName')->add('prtDescription')->add('prtStatus')->add('prtCreatedDate')->add('prtUpdatedDate');
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder->add('prtName')->add('prtDescription')->add('prtStatus');
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
-    {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\AmlProviderType'
         ));
@@ -29,10 +27,8 @@ class AmlProviderTypeType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
-    {
+    public function getBlockPrefix() {
         return 'appbundle_amlprovidertype';
     }
-
 
 }

@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * AmlProviderType
@@ -94,6 +95,7 @@ class AmlProviderType {
     function getPrtId() {
         return $this->prtId;
     }
+
     function getPrtStatus() {
         return $this->prtStatus;
     }
@@ -118,5 +120,15 @@ class AmlProviderType {
         $this->prtUpdatedDate = $prtUpdatedDate;
     }
 
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context) {
+        $fakeNames = array('test', 'Shared service unit');
+        if (in_array($this->getPrtName(), $fakeNames) && $this->getPrtId() != 2) {
+            $context->buildViolation('This name sounds totally fake!')
+                    ->addViolation();
+        }
+    }
 
 }
