@@ -6,21 +6,19 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AmlProviderAfiliationType extends AbstractType
-{
+class AmlProviderAfiliationType extends AbstractType {
+
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder->add('praName')->add('praDescription')->add('praStatus')->add('praCreatedDate')->add('praUpdatedDate');
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder->add('praName')->add('praDescription')->add('praStatus');
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
-    {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\AmlProviderAfiliation'
         ));
@@ -29,10 +27,8 @@ class AmlProviderAfiliationType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
-    {
+    public function getBlockPrefix() {
         return 'appbundle_amlproviderafiliation';
     }
-
 
 }

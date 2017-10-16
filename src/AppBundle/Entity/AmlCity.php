@@ -3,6 +3,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * AmlCity
@@ -10,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="aml_city", indexes={@ORM\Index(name="fk_aml_city_cou_idx", columns={"cit_cou_id"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields= {"citName, citId"}, message="There is already a Configured City with that Name for the selected Country")
  */
 class AmlCity {
 
@@ -83,6 +87,17 @@ class AmlCity {
 
     function setCitCou(\AppBundle\Entity\AmlCountry $citCou) {
         $this->citCou = $citCou;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context) {
+        if (strlen($this->getCitName()) < 4) {
+            $context->buildViolation('City name is too short!')
+                    ->atPath('citName')
+                    ->addViolation();
+        }
     }
 
 }

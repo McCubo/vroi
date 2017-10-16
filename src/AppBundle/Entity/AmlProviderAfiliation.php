@@ -3,6 +3,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * AmlProviderAfiliation
@@ -10,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="aml_provider_afiliation", uniqueConstraints={@ORM\UniqueConstraint(name="afi_name_UNIQUE", columns={"pra_name"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields= {"praName"}, message="There is already an Affiliation with that name!")
  */
 class AmlProviderAfiliation {
 
@@ -62,6 +66,7 @@ class AmlProviderAfiliation {
      */
     public function setCreatedAtValue() {
         $this->praCreatedDate = new \DateTime();
+        $this->praStatus = 1;
     }
 
     /**
@@ -117,6 +122,17 @@ class AmlProviderAfiliation {
 
     function setPraId($praId) {
         $this->praId = $praId;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context) {
+        if (strlen($this->getPraName()) < 4) {
+            $context->buildViolation('Affiliation name is too short!')
+                    ->atPath('praName')
+                    ->addViolation();
+        }
     }
 
 }

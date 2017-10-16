@@ -3,6 +3,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * AmlProviderGroup
@@ -10,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="aml_provider_group", uniqueConstraints={@ORM\UniqueConstraint(name="prg_name_UNIQUE", columns={"prg_name"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields= {"prgName"}, message="Invalid Provider Group Name: There is already a Provider Group with that name!")
  */
 class AmlProviderGroup {
 
@@ -55,6 +59,7 @@ class AmlProviderGroup {
      */
     public function setCreatedAtValue() {
         $this->prgCreatedAt = new \DateTime();
+        $this->prgStatus = 1;
     }
 
     /**
@@ -102,6 +107,17 @@ class AmlProviderGroup {
 
     function setPrgId($prgId) {
         $this->prgId = $prgId;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context) {
+        if (strlen($this->getPrgName()) < 5) {
+            $context->buildViolation('Provider Group name is too short!')
+                    ->atPath('prgName')
+                    ->addViolation();
+        }
     }
 
 }

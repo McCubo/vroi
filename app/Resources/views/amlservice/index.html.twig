@@ -1,45 +1,50 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    <link href="{{ asset('vendor/datatables-plugins/dataTables.bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">
+{% endblock %}
 {% block body %}
-    <h1>Amlservices list</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Sername</th>
-                <th>Serstatus</th>
-                <th>Sercreateddate</th>
-                <th>Serupdateddate</th>
-                <th>Serid</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for amlService in amlServices %}
-            <tr>
-                <td><a href="{{ path('admin_service_show', { 'serId': amlService.serId }) }}">{{ amlService.serName }}</a></td>
-                <td>{% if amlService.serStatus %}Yes{% else %}No{% endif %}</td>
-                <td>{% if amlService.serCreatedDate %}{{ amlService.serCreatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if amlService.serUpdatedDate %}{{ amlService.serUpdatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ amlService.serId }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('admin_service_show', { 'serId': amlService.serId }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('admin_service_edit', { 'serId': amlService.serId }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('admin_service_new') }}">Create a new amlService</a>
-        </li>
-    </ul>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Providers Service List</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9">
+                <table id="catalog_list" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Service Name</th>
+                            <th>Is Service Active?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for amlService in amlServices %}
+                            <tr>
+                                <td><a href="{{ path('admin_service_edit', { 'serId': amlService.serId }) }}">{{ amlService.serName }}</a></td>
+                                <td>{% if amlService.serStatus %}Yes{% else %}No{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <a href="{{ path('admin_service_new') }}">
+                    <button type="button" class="btn btn-info">Create new Service</button>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables-plugins/dataTables.bootstrap.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#catalog_list").DataTable({
+                "info": false,
+                "searching": false,
+                "lengthChange": false
+            });
+        });
+    </script>    
 {% endblock %}

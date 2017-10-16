@@ -3,6 +3,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * AmlService
@@ -10,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="aml_service", uniqueConstraints={@ORM\UniqueConstraint(name="ser_name_UNIQUE", columns={"ser_name"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields= {"serName"}, message="There is already a Service with that name!")
  */
 class AmlService {
 
@@ -55,6 +59,7 @@ class AmlService {
      */
     public function setCreatedAtValue() {
         $this->serCreatedDate = new \DateTime();
+        $this->serStatus = 1;
     }
 
     /**
@@ -102,6 +107,17 @@ class AmlService {
 
     function setSerId($serId) {
         $this->serId = $serId;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context) {
+        if (strlen($this->getSerName()) < 5) {
+            $context->buildViolation('Service Name is too short!')
+                    ->atPath('serName')
+                    ->addViolation();
+        }
     }
 
 }

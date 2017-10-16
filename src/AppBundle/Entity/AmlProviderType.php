@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * AmlProviderType
@@ -12,6 +13,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Table(name="aml_provider_type", uniqueConstraints={@ORM\UniqueConstraint(name="prt_name_UNIQUE", columns={"prt_name"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields= {"prtName"}, message="Invalid Provider Type Name: There is already a Provider Type with that name!")
  */
 class AmlProviderType {
 
@@ -123,10 +125,10 @@ class AmlProviderType {
     /**
      * @Assert\Callback
      */
-    public function validate(ExecutionContextInterface $context) {
-        $fakeNames = array('test', 'Shared service unit');
-        if (in_array($this->getPrtName(), $fakeNames) && $this->getPrtId() != 2) {
-            $context->buildViolation('This name sounds totally fake!')
+    public function validate(ExecutionContextInterface $context) {        
+        if (strlen($this->getPrtName()) <= 5) {
+            $context->buildViolation('Provider Type name is too short!')
+                    ->atPath('prtName')
                     ->addViolation();
         }
     }

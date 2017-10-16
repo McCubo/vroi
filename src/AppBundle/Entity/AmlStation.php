@@ -3,6 +3,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * AmlStation
@@ -10,9 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="aml_station", uniqueConstraints={@ORM\UniqueConstraint(name="sta_name_UNIQUE", columns={"sta_name"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields= {"staName"}, message="There is already a Station with that name!")
  */
-class AmlStation
-{
+class AmlStation {
+
     /**
      * @var string
      *
@@ -36,13 +40,13 @@ class AmlStation
      */
     private $staId;
 
-   /**
+    /**
      * @ORM\PrePersist
      */
-    public function setCreatedAtValue()
-    {
+    public function setCreatedAtValue() {
         $this->staCreatedDate = new \DateTime();
     }
+
     function getStaName() {
         return $this->staName;
     }
@@ -67,5 +71,15 @@ class AmlStation
         $this->staId = $staId;
     }
 
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context) {
+        if (strlen($this->getStaName()) < 4) {
+            $context->buildViolation('Station Name is too short!')
+                    ->atPath('staName')
+                    ->addViolation();
+        }
+    }
 
 }

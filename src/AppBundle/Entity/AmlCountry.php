@@ -3,6 +3,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * AmlCountry
@@ -10,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="aml_country", uniqueConstraints={@ORM\UniqueConstraint(name="cou_name_UNIQUE", columns={"cou_name"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields= {"couName"}, message="There is already a Country with that name!")
  */
 class AmlCountry {
 
@@ -69,6 +73,17 @@ class AmlCountry {
 
     public function __toString() {
         return $this->couName;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context) {
+        if (strlen($this->getCouName()) < 4) {
+            $context->buildViolation('Country name is too short!')
+                    ->atPath('couName')
+                    ->addViolation();
+        }
     }
 
 }

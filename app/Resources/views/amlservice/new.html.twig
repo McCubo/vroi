@@ -1,16 +1,36 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Amlservice creation</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Service Creation</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-6">
+                {{ form_start(form) }}
+                <div class="form-group">
+                    <label>Service Name:</label>
+                    {{ form_widget(form.serName, { 'attr': {'class': 'form-control'} }) }}
+                    <small class="form-text text-muted">
+                        {{ form_errors(form.serName) }}
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>Active:</label>
+                    {{ form_widget(form.serStatus, { 'attr': {'disabled': 'disabled', } }) }}
+                </div>
+                <input type="submit" class="btn btn-success" value="Create" />
+                <input type="reset" class="btn btn-danger" value="Reset Values in Form" />
+                <a href="{{ path('admin_service_index') }}">
+                    <button type="button" class="btn btn-info">Back to the list</button>
+                </a>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('admin_service_index') }}">Back to the list</a>
-        </li>
-    </ul>
 {% endblock %}
