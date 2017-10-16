@@ -26,7 +26,18 @@ class DefaultController extends Controller {
      * @Security("has_role('ROLE_ADMIN')")
      */
     public function tempAction(Request $request) {
-        return $this->render("temp/temp.html.twig");
+        /*
+        $message = (new \Swift_Message('Mail using Swift Mailer and Symfony'))
+                ->setFrom('mccubo.spam@gmail.com')
+                ->setTo('cubiascaceres@gmail.com')
+                ->setBody($this->renderView('notification/confirm_reg.html.twig', array('name' => "McCubo")), 'text/html');
+
+        $this->get('mailer')->send($message);
+        */
+        return $this->render("notification/confirm_reg.html.twig", 
+                array('name' => "McCubo", 
+                    "email" => "cubiascaceres@gmail.com.sv",
+                    "link" => "http://amlog/web/app.php/user/confirm/token/aksjdhakjh8764jbmb%jsdfjhgshsgfy384234#-AmL06mxvmnbxcmvbn"));
     }
 
 }
