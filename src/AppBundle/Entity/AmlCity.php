@@ -10,10 +10,10 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 /**
  * AmlCity
  *
- * @ORM\Table(name="aml_city", indexes={@ORM\Index(name="fk_aml_city_cou_idx", columns={"cit_cou_id"})})
+ * @ORM\Table(name="aml_city", uniqueConstraints={@ORM\UniqueConstraint(name="unique_citname_couid", columns={"cit_cou_id", "cit_name"})}, indexes={@ORM\Index(name="fk_aml_city_cou_idx", columns={"cit_cou_id"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity(fields= {"citName, citId"}, message="There is already a Configured City with that Name for the selected Country")
+ * @UniqueEntity(fields= {"citName", "citCou"}, message="There is already a Configured City with that Name for the selected Country")
  */
 class AmlCity {
 
@@ -47,6 +47,7 @@ class AmlCity {
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="cit_cou_id", referencedColumnName="cou_id")
      * })
+     * @Assert\NotBlank()
      */
     private $citCou;
 
@@ -98,6 +99,10 @@ class AmlCity {
                     ->atPath('citName')
                     ->addViolation();
         }
+    }
+
+    function getCountryName() {
+        return $this->citCou->getCouName();
     }
 
 }

@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Country Creation</h1>
+                <h1 class="page-header">Country Edit</h1>
             </div>
         </div>
         <!-- /.row -->
@@ -18,9 +18,9 @@
                         {{ form_errors(form.couName) }}
                     </small>
                 </div>
-                <input type="submit" class="btn btn-success" value="Create" />
+                <input type="submit" class="btn btn-success" value="Update" />
                 <input type="reset" class="btn btn-danger" value="Reset Values in Form" />
-                <a href="{{ path('admin_provider_afiliation_index') }}">
+                <a href="{{ path('admin_country_index') }}">
                     <button type="button" class="btn btn-info">Back to the list</button>
                 </a>
                 {{ form_end(form) }}

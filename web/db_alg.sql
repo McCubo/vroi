@@ -504,3 +504,6 @@ ADD COLUMN `use_confirmation_date` DATETIME NULL AFTER `use_sta_id`;
 
 ALTER TABLE `db_alg`.`aml_user` 
 ADD COLUMN `use_expiration_date` DATETIME NULL AFTER `use_confirmation_date`;
+
+ALTER TABLE `db_alg`.`aml_city` 
+ADD UNIQUE INDEX `unique_citname_couid` (`cit_cou_id` ASC, `cit_name` ASC);
