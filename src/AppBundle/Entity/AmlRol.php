@@ -54,19 +54,20 @@ class AmlRol {
         return $this->rolName;
     }
 
-   /**
+    /**
      * @ORM\PrePersist
      */
-    public function setCreatedAtValue()
-    {
+    public function setCreatedAtValue() {
         $this->rolCreatedDate = new \DateTime();
     }
 
-   /**
+    /**
      * @ORM\PreUpdate
      */
-    public function setUpdatedAtValue()
-    {
+    public function setUpdatedAtValue() {
         $this->rolUpdatedDate = new \DateTime();
+    }
+    public function __toString() {
+        return $this->rolName;
     }
 }

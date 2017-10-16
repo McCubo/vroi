@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link href="{{ asset('vendor/datatables-plugins/dataTables.bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">User List Management</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <table id="catalog_list" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Username</th>
+                            <th>Is User Active?</th>
+                            <th>User Email</th>
+                            <th>User Phone Number</th>
+                            <th>User Confirmation Date</th>
+                            <th>Expiration Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for amlUser in amlUsers %}
+                            <tr>
+                                <td><a href="{{ path('admin_user_edit', { 'useId': amlUser.useId }) }}">{{ amlUser.useId }}</a></td>
+                                <td><a href="{{ path('admin_user_edit', { 'useId': amlUser.useId }) }}">{{ amlUser.useName }}</a></td>
+                                <td>{% if amlUser.useStatus %}Yes{% else %}No{% endif %}</td>
+                                <td>{{ amlUser.useEmail }}</td>
+                                <td>{{ amlUser.usePhoneNumber }}</td>
+                                <td>{% if amlUser.useConfirmationDate %}{{ amlUser.useConfirmationDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                                <td>{% if amlUser.useExpirationDate %}{{ amlUser.useExpirationDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <a href="{{ path('admin_user_new') }}">
+                    <button type="button" class="btn btn-info">Create new User</button>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables-plugins/dataTables.bootstrap.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#catalog_list").DataTable({
+                "info": false,
+                "searching": false,
+                "lengthChange": false
+            });
+        });
+    </script>    
+{% endblock %}

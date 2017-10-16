@@ -82,4 +82,8 @@ class AmlStation {
         }
     }
 
+    public function __toString() {
+        return $this->staName;
+    }
+
 }
