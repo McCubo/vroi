@@ -34,8 +34,6 @@ class AmlUser implements AdvancedUserInterface, \Serializable {
      * @var string
      *
      * @ORM\Column(name="use_password", type="string", length=150, nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\Length(min = 8, minMessage = "Password must be at least {{ limit }} characters long")
      */
     private $usePassword;
 
@@ -52,8 +50,7 @@ class AmlUser implements AdvancedUserInterface, \Serializable {
      * @ORM\Column(name="use_email", type="string", length=150, nullable=false)
      * @Assert\NotBlank()
      * @Assert\Email(
-     *     message = "The email '{{ value }}' is not a valid email.",
-     *     checkMX = true
+     *     message = "The email '{{ value }}' is not a valid email."
      * )
      */
     private $useEmail;

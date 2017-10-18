@@ -5,6 +5,8 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class AmlUserType extends AbstractType {
 
@@ -19,6 +21,12 @@ class AmlUserType extends AbstractType {
                 ->add('useCou')
                 ->add('useRol')
                 ->add('useSta');
+        /*
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+            $user = $event->getData();
+            $form = $event->getForm();
+            
+        });*/
     }
 
     /**

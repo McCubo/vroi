@@ -41,33 +41,23 @@ class AmlUserController extends Controller {
         $amlUser = new Amluser();
         $form = $this->createForm('AppBundle\Form\AmlUserType', $amlUser);
         $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $encoder = $this->container->get('security.password_encoder');
+            $encoded = $encoder->encodePassword($amlUser, $request->request->get("useName"));
+            $amlUser->setUsePassword($encoded);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($amlUser);
+                $em->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($amlUser);
-            $em->flush();
-
-            return $this->redirectToRoute('admin_user_show', array('useId' => $amlUser->getUseid()));
+                return $this->redirectToRoute('admin_user_index');
+            }
         }
+
 
         return $this->render('amluser/new.html.twig', array(
                     'amlUser' => $amlUser,
                     'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a amlUser entity.
-     *
-     * @Route("/{useId}", name="admin_user_show")
-     * @Method("GET")
-     */
-    public function showAction(AmlUser $amlUser) {
-        $deleteForm = $this->createDeleteForm($amlUser);
-
-        return $this->render('amluser/show.html.twig', array(
-                    'amlUser' => $amlUser,
-                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -78,55 +68,19 @@ class AmlUserController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, AmlUser $amlUser) {
-        $deleteForm = $this->createDeleteForm($amlUser);
         $editForm = $this->createForm('AppBundle\Form\AmlUserType', $amlUser);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('admin_user_edit', array('useId' => $amlUser->getUseid()));
+            return $this->redirectToRoute('admin_user_index');
         }
 
         return $this->render('amluser/edit.html.twig', array(
                     'amlUser' => $amlUser,
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
+                    'form' => $editForm->createView(),
         ));
-    }
-
-    /**
-     * Deletes a amlUser entity.
-     *
-     * @Route("/{useId}", name="admin_user_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, AmlUser $amlUser) {
-        $form = $this->createDeleteForm($amlUser);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($amlUser);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('admin_user_index');
-    }
-
-    /**
-     * Creates a form to delete a amlUser entity.
-     *
-     * @param AmlUser $amlUser The amlUser entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(AmlUser $amlUser) {
-        return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('admin_user_delete', array('useId' => $amlUser->getUseid())))
-                        ->setMethod('DELETE')
-                        ->getForm()
-        ;
     }
 
 }

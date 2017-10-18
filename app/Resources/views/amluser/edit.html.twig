@@ -1,21 +1,67 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Amluser edit</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Update User</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-6">
+                {{ form_start(form) }}
+                <div class="form-group">
+                    <label>Username:</label>
+                    {{ form_widget(form.useName, { 'attr': {'class': 'form-control'} }) }}
+                    <small class="form-text text-muted">
+                        {{ form_errors(form.useName) }}
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>User Email:</label>
+                    {{ form_widget(form.useEmail, { 'attr': {'class': 'form-control'} }) }}
+                    <small class="form-text text-muted">
+                        {{ form_errors(form.useEmail) }}
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>Phone number:</label>
+                    {{ form_widget(form.usePhoneNumber, { 'attr': {'class': 'form-control'} }) }}
+                    <small class="form-text text-muted">
+                        {{ form_errors(form.usePhoneNumber) }}
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>Country:</label>
+                    {{ form_widget(form.useCou, { 'attr': {'class': 'form-control'} }) }}
+                    <small class="form-text text-muted">
+                        {{ form_errors(form.useCou) }}
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>Role:</label>
+                    {{ form_widget(form.useRol, { 'attr': {'class': 'form-control'} }) }}
+                    <small class="form-text text-muted">
+                        {{ form_errors(form.useRol) }}
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>Station:</label>
+                    {{ form_widget(form.useSta, { 'attr': {'class': 'form-control'} }) }}
+                    <small class="form-text text-muted">
+                        {{ form_errors(form.useSta) }}
+                    </small>
+                </div>
+                <input type="submit" class="btn btn-success" value="Update" />
+                <input type="reset" class="btn btn-danger" value="Reset Values in Form" />
+                <a href="{{ path('admin_user_index') }}">
+                    <button type="button" class="btn btn-info">Back to the list</button>
+                </a>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('admin_user_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
 {% endblock %}
