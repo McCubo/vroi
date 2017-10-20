@@ -48,10 +48,6 @@ class AmlUser implements AdvancedUserInterface, \Serializable {
      * @var string
      *
      * @ORM\Column(name="use_email", type="string", length=150, nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\Email(
-     *     message = "The email '{{ value }}' is not a valid email."
-     * )
      */
     private $useEmail;
 
@@ -61,6 +57,13 @@ class AmlUser implements AdvancedUserInterface, \Serializable {
      * @ORM\Column(name="use_phone_number", type="string", length=45, nullable=true)
      */
     private $usePhoneNumber;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="use_token", type="string", length=45, nullable=false)
+     */
+    private $useToken;
 
     /**
      * @var integer
@@ -274,6 +277,14 @@ class AmlUser implements AdvancedUserInterface, \Serializable {
 
     public function getPrintValue() {
         return $this->useEmail . "(" . $this->useName . ")";
+    }
+
+    function getUseToken() {
+        return $this->useToken;
+    }
+
+    function setUseToken($useToken) {
+        $this->useToken = $useToken;
     }
 
 }

@@ -129,18 +129,18 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <h3>Hello {{ name }} . {{ token }}</h3>
+                            <h3>Hello {{ name }}</h3>
                             <h4>Your email address ({{ email }}) has been linked to an user on the Database provider's system. To activate it, 
                                 please click the button below</h4>
                             <br />
-                            <a href="{{ link }}">
+                            <a href="{{ absolute_url(path('user_confirm', {'token': token})) }}">
                                 <button type="button" class="btn btn-success btn-lg">Confirm email address</button>
                             </a>
                             <br />
                             <h4>If you have trouble using the button above, you can also confirm by copying the link below
                                 into your address bar:</h4>
-                            <a href="{{ link }}">
-                                {{ link }}
+                            <a href="{{ absolute_url(path('user_confirm', {'token': token})) }}">
+                                {{ absolute_url(path('user_confirm', {'token': token})) }}
                             </a>
                             <h4>Thanks,</h4>
                             <h4>The America Logistic Group, IT Department</h4>

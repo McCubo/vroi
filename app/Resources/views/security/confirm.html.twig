@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>Account has been confirmed!</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link href="{{ asset('css/error.css') }}" rel="stylesheet" type="text/css" media="all">
+    </head>
+    <body>
+        <!---728x90-->
+        <!--start-wrap-->
+        <div class="wrap">
+            <!--start-content-->
+            <div class="content">
+                <!---start-logo-->
+                <div class="logo">
+                    <h1><a href="#"><img src="{{ asset('images/unlocked.png') }}"></a></h1>
+                    <span>                        
+                        Account has been activated Successfully.
+                    </span>
+                </div>
+                <!--end-logo-->
+                <!--start-search-bar-section-->
+                <div class="buttom">
+                    <img src="{{ asset('images/signal.png')}}" /><span style="color: white">By default, your password is the same as your username. 
+                        You can change it anytime by going to <strong>User Setting > My Profile.</strong>
+                        Click here to go to the log in page: <a style="color: white" href="{{ path('login') }}">LOG IN PAGE</a>
+                    </span>
+                </div>
+                <!--end-sear-bar-->
+            </div>
+        </div>
+        <!--end-wrap-->
+    </body>
+</html>

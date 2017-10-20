@@ -43,13 +43,24 @@ class AmlUserController extends Controller {
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $encoder = $this->container->get('security.password_encoder');
-            $encoded = $encoder->encodePassword($amlUser, $request->request->get("useName"));
+            #   $encoded = $encoder->encodePassword($amlUser, $request->request->get("useName"));
+            $sToken = md5(random_bytes(30));
+            $amlUser->setUseToken($sToken);
+            $encoded = $encoder->encodePassword($amlUser, "cubias");
             $amlUser->setUsePassword($encoded);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($amlUser);
                 $em->flush();
+                $message = (new \Swift_Message('Confirmation Registration for Database Feedback System.'))
+                        ->setFrom('system.noreply@amlog.com')
+                        ->setTo('cubiascaceres@gmail.com')
+                        ->setBody($this->renderView('notification/confirm_reg.html.twig', array(
+                            "email" => $amlUser->getUseEmail(),
+                            'name' => $amlUser->getUsername(),
+                            "token" => $sToken)), 'text/html');
 
+                $this->get('mailer')->send($message);
                 return $this->redirectToRoute('admin_user_index');
             }
         }
