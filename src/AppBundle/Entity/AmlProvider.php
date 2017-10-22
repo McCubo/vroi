@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class AmlProvider
-{
+class AmlProvider {
+
     /**
      * @var string
      *
@@ -26,13 +26,6 @@ class AmlProvider
      * @ORM\Column(name="pro_address", type="string", length=250, nullable=false)
      */
     private $proAddress;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="pro_cit_id", type="integer", nullable=false)
-     */
-    private $proCitId;
 
     /**
      * @var string
@@ -96,6 +89,16 @@ class AmlProvider
     private $proPra;
 
     /**
+     * @var \AppBundle\Entity\AmlCity
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlCity")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="pro_cit_id", referencedColumnName="cit_id")
+     * })
+     */
+    private $proCit;
+
+    /**
      * @var \AppBundle\Entity\AmlProviderGroup
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlProviderGroup")
@@ -115,19 +118,122 @@ class AmlProvider
      */
     private $proPrt;
 
-   /**
+    /**
      * @ORM\PrePersist
      */
-    public function setCreatedAtValue()
-    {
+    public function setCreatedAtValue() {
         $this->proCreatedDate = new \DateTime();
     }
 
-   /**
+    /**
      * @ORM\PreUpdate
      */
-    public function setUpdatedAtValue()
-    {
+    public function setUpdatedAtValue() {
         $this->proUpdatedDate = new \DateTime();
     }
+
+    function getProName() {
+        return $this->proName;
+    }
+
+    function getProAddress() {
+        return $this->proAddress;
+    }
+
+    function getProMainPhoneNumber() {
+        return $this->proMainPhoneNumber;
+    }
+
+    function getProSiteUrl() {
+        return $this->proSiteUrl;
+    }
+
+    function getProDescription() {
+        return $this->proDescription;
+    }
+
+    function getProStatus() {
+        return $this->proStatus;
+    }
+
+    function getProCreatedDate(): \DateTime {
+        return $this->proCreatedDate;
+    }
+
+    function getProUpdatedDate(): \DateTime {
+        return $this->proUpdatedDate;
+    }
+
+    function getProId() {
+        return $this->proId;
+    }
+
+    function getProPra(): \AppBundle\Entity\AmlProviderAfiliation {
+        return $this->proPra;
+    }
+
+    function getProCit(): \AppBundle\Entity\AmlCity {
+        return $this->proCit;
+    }
+
+    function getProPrg(): \AppBundle\Entity\AmlProviderGroup {
+        return $this->proPrg;
+    }
+
+    function getProPrt(): \AppBundle\Entity\AmlProviderType {
+        return $this->proPrt;
+    }
+
+    function setProName($proName) {
+        $this->proName = $proName;
+    }
+
+    function setProAddress($proAddress) {
+        $this->proAddress = $proAddress;
+    }
+
+    function setProMainPhoneNumber($proMainPhoneNumber) {
+        $this->proMainPhoneNumber = $proMainPhoneNumber;
+    }
+
+    function setProSiteUrl($proSiteUrl) {
+        $this->proSiteUrl = $proSiteUrl;
+    }
+
+    function setProDescription($proDescription) {
+        $this->proDescription = $proDescription;
+    }
+
+    function setProStatus($proStatus) {
+        $this->proStatus = $proStatus;
+    }
+
+    function setProCreatedDate(\DateTime $proCreatedDate) {
+        $this->proCreatedDate = $proCreatedDate;
+    }
+
+    function setProUpdatedDate(\DateTime $proUpdatedDate) {
+        $this->proUpdatedDate = $proUpdatedDate;
+    }
+
+    function setProId($proId) {
+        $this->proId = $proId;
+    }
+
+    function setProPra(\AppBundle\Entity\AmlProviderAfiliation $proPra) {
+        $this->proPra = $proPra;
+    }
+
+    function setProCit(\AppBundle\Entity\AmlCity $proCit) {
+        $this->proCit = $proCit;
+    }
+
+    function setProPrg(\AppBundle\Entity\AmlProviderGroup $proPrg) {
+        $this->proPrg = $proPrg;
+    }
+
+    function setProPrt(\AppBundle\Entity\AmlProviderType $proPrt) {
+        $this->proPrt = $proPrt;
+    }
+
 }
