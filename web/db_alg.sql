@@ -510,3 +510,42 @@ ADD UNIQUE INDEX `unique_citname_couid` (`cit_cou_id` ASC, `cit_name` ASC);
 
 ALTER TABLE `db_alg`.`aml_user` 
 ADD COLUMN `use_token` VARCHAR(45) NOT NULL AFTER `use_expiration_date`;
+
+CREATE TABLE `db_alg`.`aml_provider_attachment` (
+  `pat_id` INT NOT NULL AUTO_INCREMENT,
+  `pat_comment` VARCHAR(250) NULL,
+  `pat_pro_id` INT(11) NOT NULL,
+  `pat_use_id` INT(11) NOT NULL,
+  `pat_upload_date` DATETIME NOT NULL,
+  PRIMARY KEY (`pat_id`));
+
+ALTER TABLE `db_alg`. `aml_provider_attachment`
+add constraint FK_provider_file_use_id
+foreign key (pat_use_id) references `aml_user`(use_id);
+
+ALTER TABLE `db_alg`. `aml_provider_attachment`
+add constraint FK_provider_file_pro_id
+foreign key (pat_pro_id) references `aml_provider`(pro_id);
+
+ALTER TABLE `db_alg`.`aml_provider_attachment` 
+CHANGE COLUMN `pat_comment` `pat_comment` VARCHAR(250) NOT NULL ,
+ADD COLUMN `pat_file_path` VARCHAR(250) NOT NULL AFTER `pat_upload_date`;
+
+CREATE TABLE `db_alg`.`aml_provider_relation` (
+  `prr_id` INT NOT NULL AUTO_INCREMENT,
+  `prr_parent_pro_id` INT(11) NOT NULL,
+  `prr_child_pro_id` INT(11) NOT NULL,
+  `prr_created_date` DATETIME NOT NULL,
+  PRIMARY KEY (`prr_id`));
+
+ALTER TABLE `db_alg`.`aml_provider_relation`
+add constraint FK_provider_relation_parent
+foreign key (prr_parent_pro_id) references `aml_provider`(pro_id);
+
+ALTER TABLE `db_alg`.`aml_provider_relation`
+add constraint FK_provider_relation_child
+foreign key (prr_child_pro_id) references `aml_provider`(pro_id);
+
+ALTER TABLE `db_alg`.`aml_provider`
+add constraint FK_provider_city
+foreign key (pro_cit_id) references `aml_city`(cit_id);
