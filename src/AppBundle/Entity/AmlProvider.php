@@ -79,50 +79,39 @@ class AmlProvider {
     private $proId;
 
     /**
-     * @var \AppBundle\Entity\AmlProviderAfiliation
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlProviderAfiliation")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pro_pra_id", referencedColumnName="pra_id")
-     * })
+     * @ORM\Column(name="pro_pra_id", type="integer", nullable=true)
      */
-    private $proPra;
+    private $proPraId;
 
     /**
-     * @var \AppBundle\Entity\AmlCity
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlCity")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pro_cit_id", referencedColumnName="cit_id")
-     * })
+     * @ORM\Column(name="pro_cit_id", type="integer", nullable=true)
      */
-    private $proCit;
+    private $proCitId;
 
     /**
-     * @var \AppBundle\Entity\AmlProviderGroup
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlProviderGroup")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pro_prg_id", referencedColumnName="prg_id")
-     * })
+     * @ORM\Column(name="pro_prg_id", type="integer", nullable=true)
      */
-    private $proPrg;
+    private $proPrgId;
 
     /**
-     * @var \AppBundle\Entity\AmlProviderType
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlProviderType")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pro_prt_id", referencedColumnName="prt_id")
-     * })
+     * @ORM\Column(name="pro_prt_id", type="integer", nullable=true)
      */
-    private $proPrt;
+    private $proPrtId;
 
     /**
      * @ORM\PrePersist
      */
     public function setCreatedAtValue() {
         $this->proCreatedDate = new \DateTime();
+        $this->proStatus = 1;
     }
 
     /**
@@ -168,20 +157,20 @@ class AmlProvider {
         return $this->proId;
     }
 
-    function getProPra(): \AppBundle\Entity\AmlProviderAfiliation {
-        return $this->proPra;
+    function getProPraId() {
+        return $this->proPraId;
     }
 
-    function getProCit(): \AppBundle\Entity\AmlCity {
-        return $this->proCit;
+    function getProCitId() {
+        return $this->proCitId;
     }
 
-    function getProPrg(): \AppBundle\Entity\AmlProviderGroup {
-        return $this->proPrg;
+    function getProPrgId() {
+        return $this->proPrgId;
     }
 
-    function getProPrt(): \AppBundle\Entity\AmlProviderType {
-        return $this->proPrt;
+    function getProPrtId() {
+        return $this->proPrtId;
     }
 
     function setProName($proName) {
@@ -220,20 +209,20 @@ class AmlProvider {
         $this->proId = $proId;
     }
 
-    function setProPra(\AppBundle\Entity\AmlProviderAfiliation $proPra) {
-        $this->proPra = $proPra;
+    function setProPraId($proPraId) {
+        $this->proPraId = $proPraId;
     }
 
-    function setProCit(\AppBundle\Entity\AmlCity $proCit) {
-        $this->proCit = $proCit;
+    function setProCitId($proCitId) {
+        $this->proCitId = $proCitId;
     }
 
-    function setProPrg(\AppBundle\Entity\AmlProviderGroup $proPrg) {
-        $this->proPrg = $proPrg;
+    function setProPrgId($proPrgId) {
+        $this->proPrgId = $proPrgId;
     }
 
-    function setProPrt(\AppBundle\Entity\AmlProviderType $proPrt) {
-        $this->proPrt = $proPrt;
+    function setProPrtId($proPrtId) {
+        $this->proPrtId = $proPrtId;
     }
 
 }

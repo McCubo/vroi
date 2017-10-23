@@ -78,6 +78,10 @@ class AmlProviderType {
         $this->prtUpdatedDate = new \DateTime();
     }
 
+    public function getDisplayName() {
+        return $this->prtName . ": " . substr($this->prtDescription, 0, 20) . "...";
+    }
+
     function getPrtName() {
         return $this->prtName;
     }
@@ -125,7 +129,7 @@ class AmlProviderType {
     /**
      * @Assert\Callback
      */
-    public function validate(ExecutionContextInterface $context) {        
+    public function validate(ExecutionContextInterface $context) {
         if (strlen($this->getPrtName()) <= 5) {
             $context->buildViolation('Provider Type name is too short!')
                     ->atPath('prtName')

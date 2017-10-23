@@ -124,6 +124,10 @@ class AmlProviderAfiliation {
         $this->praId = $praId;
     }
 
+    public function getDisplayName() {
+        return $this->praName . ": ". substr($this->praDescription, 0, 20). "...";
+    }
+
     /**
      * @Assert\Callback
      */
