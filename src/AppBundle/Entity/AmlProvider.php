@@ -145,11 +145,11 @@ class AmlProvider {
         return $this->proStatus;
     }
 
-    function getProCreatedDate(): \DateTime {
+    function getProCreatedDate() {
         return $this->proCreatedDate;
     }
 
-    function getProUpdatedDate(): \DateTime {
+    function getProUpdatedDate() {
         return $this->proUpdatedDate;
     }
 
