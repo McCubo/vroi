@@ -6,6 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\AmlProvider;
+use AppBundle\Entity\UploadFile;
+use AppBundle\Form\UploadFileType;
 
 class AmlProviderController extends Controller {
 
@@ -35,7 +37,13 @@ class AmlProviderController extends Controller {
      * @Route("/admin/provider_save", name="provider_save")
      */
     public function doSaveAction(Request $request) {
-        # $file = $request->files->get("file_doc");
+        $uploadFile = new UploadFile();
+        $form = $this->createForm(UploadFileType::class, $uploadFile);
+        $form->handleRequest($request);
+        $oFile = $uploadFile->getFileDoc();
+        $clientOriginalName = $oFile->getClientOriginalName();
+                
+        $file = $request->files->get("file_doc");
         # $file2 = $request->files->get("file");
         # $all0 = $request->files->all();
         /*

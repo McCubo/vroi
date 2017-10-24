@@ -19,7 +19,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form role="form" action="{{ path('provider_save') }}" method="post">
+                                <form name="provider_form" id="provider_form" role="form" data-action_url="{{ path('provider_save') }}" method="post" enctype="multipart/form-data">
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Name</label>
@@ -39,9 +39,9 @@
                                         </div>
                                         <div class="form-group">
                                             <label>City</label>
-                                            <select class="form-control">
+                                            <!--<select class="form-control">
 
-                                            </select>
+                                            </select>-->
                                         </div>
                                         <div class="form-group">
                                             <label>Main phone number</label>
@@ -49,7 +49,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Fax</label>
-                                            <input name="provider[fax]" type="tel" class="form-control" placeholder="Phone number">
+                                            <!-- <input name="provider[fax]" type="tel" class="form-control" placeholder="Phone number"> -->
                                         </div>
                                         <div class="form-group">
                                             <label>Belongs to a Group?</label>
@@ -80,7 +80,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Services</label> <br />
-                                            <select name="provider[services][]" id="serviceListbox" multiple="multiple">
+                                            <select name="pro_services[]" id="serviceListbox" multiple="multiple">
                                                 {% for amlService in amlServices %}
                                                     <option value="{{ amlService.serId }}">{{ amlService.serName }}</option>
                                                 {% endfor%}
@@ -88,7 +88,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="text1"> Is this provider related to any other provider?</label><br />
-                                            <select name="provider[relations]" id="providerRelationListbox" multiple="multiple" style="min-width: 316px;">
+                                            <select name="pro_relations[]" id="providerRelationListbox" multiple="multiple" style="min-width: 316px;">
                                                 {% for amlProvider in amlProviders %}
                                                     <option value="{{ amlProvider.proId }}">{{ amlProvider.proName }}</option>
                                                 {% endfor%}
@@ -115,10 +115,10 @@
                                                 <div data-dynamic-form>
                                                     <div data-dynamic-form-template="multi">
                                                         <label>
-                                                            <input style="margin-right: 5px;" type="text" name="multi[ID][name]" placeholder="Name" data-dynamic-form-input-id-template="ID"/>
-                                                            <input style="margin-right: 5px;" type="text" name="multi[ID][phone]" placeholder="Phone Number" data-dynamic-form-input-id-template="ID"/>
-                                                            <input style="margin-right: 5px;" type="text" name="multi[ID][job_title]" placeholder="Job Title" data-dynamic-form-input-id-template="ID"/>
-                                                            <input style="margin-right: 5px;" type="email" name="multi[ID][email]" placeholder="eMail" data-dynamic-form-input-id-template="ID"/>
+                                                            <input style="margin-right: 5px;" type="text" name="contact[ID][name]" placeholder="Name" data-dynamic-form-input-id-template="ID"/>
+                                                            <input style="margin-right: 5px;" type="text" name="contact[ID][phone]" placeholder="Phone Number" data-dynamic-form-input-id-template="ID"/>
+                                                            <input style="margin-right: 5px;" type="text" name="contact[ID][job_title]" placeholder="Job Title" data-dynamic-form-input-id-template="ID"/>
+                                                            <input style="margin-right: 5px;" type="email" name="contact[ID][email]" placeholder="eMail" data-dynamic-form-input-id-template="ID"/>
                                                             <button type="button"  data-dynamic-form-add src="{{ asset('images/add.png') }}">
                                                                 <img src="{{ asset('images/add.png') }}" />
                                                             </button>
@@ -160,12 +160,12 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Upload documents</label>
-                                                <input name="file_doc[]" type="file">
+                                                <input name="provider_form[fileDoc]" type="file">
                                             </div>
                                             <label>Enter a comment</label>
-                                            <textarea name="feedback[text]" rows="4" class="form-control" placeholder="Text Here" id="textCom"></textarea>
+                                            <textarea name="feedback_text" rows="4" class="form-control" placeholder="Text Here" id="textCom"></textarea>
                                             <br>
-                                            <button type="submit" class="btn btn-primary">Save</button>
+                                            <button name="provider_form[save]" type="submit" class="btn btn-primary">Save</button>
                                             <button type="reset" class="btn btn-default">Reset</button>
                                         </div>
                                     </div>
@@ -184,6 +184,25 @@
     <script src="{{ asset('js/jquery.barrating.js') }}"></script>
     <script src="{{ asset('js/dynamic_forms.min.js') }}"></script>
     <script>
+        $(document).ready(function () {
+            $("form#provider_form").submit(function () {
+                var formData = new FormData(this);
+                var sAction = $(this).data("action_url");
+                $.ajax({
+                    url: sAction,
+                    type: 'POST',
+                    data: formData,
+                    async: false,
+                    success: function (data) {
+                        alert(data)
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                });
+                return false;
+            });
+        });
         $('#serviceListbox').multipleSelect({
             width: 460,
             multiple: true,
