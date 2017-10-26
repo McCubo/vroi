@@ -30,24 +30,18 @@ class AmlProviderEvaluation
     private $preId;
 
     /**
-     * @var \AppBundle\Entity\AmlProvider
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlProvider")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pre_pro_id", referencedColumnName="pro_id")
-     * })
+     * @ORM\Column(name="pre_pro_id", type="integer", nullable=false)
      */
-    private $prePro;
+    private $preProId;
 
     /**
-     * @var \AppBundle\Entity\AmlUser
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlUser")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pre_use_id", referencedColumnName="use_id")
-     * })
+     * @ORM\Column(name="pre_use_id", type="integer", nullable=false)
      */
-    private $preUse;
+    private $preUseId;
 
    /**
      * @ORM\PrePersist
@@ -56,5 +50,37 @@ class AmlProviderEvaluation
     {
         $this->preDate = new \DateTime();
     }
+    function getPreDate() {
+        return $this->preDate;
+    }
+
+    function getPreId() {
+        return $this->preId;
+    }
+
+    function getPreProId() {
+        return $this->preProId;
+    }
+
+    function getPreUseId() {
+        return $this->preUseId;
+    }
+
+    function setPreDate(\DateTime $preDate) {
+        $this->preDate = $preDate;
+    }
+
+    function setPreId($preId) {
+        $this->preId = $preId;
+    }
+
+    function setPreProId($preProId) {
+        $this->preProId = $preProId;
+    }
+
+    function setPreUseId($preUseId) {
+        $this->preUseId = $preUseId;
+    }
+
 
 }

@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\AmlProvider;
 use AppBundle\Entity\UploadFile;
 use AppBundle\Form\UploadFileType;
+use AppBundle\Entity\AmlProviderEvaluation;
 
 class AmlProviderController extends Controller {
 
@@ -37,6 +38,7 @@ class AmlProviderController extends Controller {
      * @Route("/admin/provider_save", name="provider_save")
      */
     public function doSaveAction(Request $request) {
+        $user = $this->getUser();
         $uploadFile = new UploadFile();
         $form = $this->createForm(UploadFileType::class, $uploadFile);
         $form->handleRequest($request);
@@ -63,12 +65,20 @@ class AmlProviderController extends Controller {
         $amlProvider->setProPraId($aFormParameter['provider']['affiliation']);
         $amlProvider->setProDescription($aFormParameter['provider']['description']);
         $amlProvider->setProSiteUrl($aFormParameter['provider']['url']);
-
         $em = $this->getDoctrine()->getManager();
         $em->persist($amlProvider);
         $em->flush();
         $proId = $amlProvider->getProId();
 
+        $amlProviderEvaluation = new AmlProviderEvaluation();
+        $amlProviderEvaluation->setPreProId($proId);
+        $amlProviderEvaluation->setPreUseId($user->getUseId());
+        $em->persist($amlProviderEvaluation);
+        $em->flush();
+        $preId = $amlProviderEvaluation->getPreId();
+        
+        
+        
         return $this->redirectToRoute('home');
         
     }
