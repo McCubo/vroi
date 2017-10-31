@@ -37,7 +37,7 @@ class AmlUserController extends Controller {
      * @Route("/new", name="admin_user_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request) {
+    public function newAction(Request $request) {       
         $amlUser = new Amluser();
         $form = $this->createForm('AppBundle\Form\AmlUserType', $amlUser);
         $form->handleRequest($request);
@@ -46,7 +46,8 @@ class AmlUserController extends Controller {
             #   $encoded = $encoder->encodePassword($amlUser, $request->request->get("useName"));
             $sToken = md5(random_bytes(30));
             $amlUser->setUseToken($sToken);
-            $encoded = $encoder->encodePassword($amlUser, "cubias");
+            $aForm = $request->request->get("appbundle_amluser");
+            $encoded = $encoder->encodePassword($amlUser, $aForm['useName']);
             $amlUser->setUsePassword($encoded);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
@@ -54,7 +55,7 @@ class AmlUserController extends Controller {
                 $em->flush();
                 $message = (new \Swift_Message('Confirmation Registration for Database Feedback System.'))
                         ->setFrom('system.noreply@amlog.com')
-                        ->setTo('cubiascaceres@gmail.com')
+                        ->setTo($amlUser->getUseEmail())
                         ->setBody($this->renderView('notification/confirm_reg.html.twig', array(
                             "email" => $amlUser->getUseEmail(),
                             'name' => $amlUser->getUsername(),
