@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class AmlEvaluationPoint
-{
+class AmlEvaluationPoint {
+
     /**
      * @var string
      *
@@ -50,20 +50,34 @@ class AmlEvaluationPoint
      */
     private $evpId;
 
-   /**
+    /**
      * @ORM\PrePersist
      */
-    public function setCreatedAtValue()
-    {
+    public function setCreatedAtValue() {
         $this->evpCreatedDate = new \DateTime();
     }
 
-   /**
+    /**
      * @ORM\PreUpdate
      */
-    public function setUpdatedAtValue()
-    {
+    public function setUpdatedAtValue() {
         $this->evpUpdatedDate = new \DateTime();
+    }
+
+    function getEvpName() {
+        return $this->evpName;
+    }
+
+    function getEvpId() {
+        return $this->evpId;
+    }
+
+    function setEvpName($evpName) {
+        $this->evpName = $evpName;
+    }
+
+    function setEvpId($evpId) {
+        $this->evpId = $evpId;
     }
 
 }

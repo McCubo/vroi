@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks() 
  */
-class AmlProviderContact
-{
+class AmlProviderContact {
+
     /**
      * @var string
      *
@@ -65,29 +65,88 @@ class AmlProviderContact
     private $prcId;
 
     /**
-     * @var \AppBundle\Entity\AmlProvider
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlProvider")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="prc_pro_id", referencedColumnName="pro_id")
-     * })
+     * @ORM\Column(name="prc_pro_id", type="integer", nullable=true)
      */
-    private $prcPro;
+    private $prcProId;
 
-   /**
+    /**
      * @ORM\PrePersist
      */
-    public function setCreatedAtValue()
-    {
+    public function setCreatedAtValue() {
         $this->prcCreatedDate = new \DateTime();
     }
 
-   /**
+    /**
      * @ORM\PreUpdate
      */
-    public function setUpdatedAtValue()
-    {
+    public function setUpdatedAtValue() {
         $this->prcUpdatedDate = new \DateTime();
+    }
+
+    function getPrcName() {
+        return $this->prcName;
+    }
+
+    function getPrcPhoneNumber() {
+        return $this->prcPhoneNumber;
+    }
+
+    function getPrcJobTitle() {
+        return $this->prcJobTitle;
+    }
+
+    function getPrcEmail() {
+        return $this->prcEmail;
+    }
+
+    function getPrcCreatedDate(): \DateTime {
+        return $this->prcCreatedDate;
+    }
+
+    function getPrcUpdatedDate(): \DateTime {
+        return $this->prcUpdatedDate;
+    }
+
+    function getPrcId() {
+        return $this->prcId;
+    }
+
+    function getPrcProId() {
+        return $this->prcProId;
+    }
+
+    function setPrcName($prcName) {
+        $this->prcName = $prcName;
+    }
+
+    function setPrcPhoneNumber($prcPhoneNumber) {
+        $this->prcPhoneNumber = $prcPhoneNumber;
+    }
+
+    function setPrcJobTitle($prcJobTitle) {
+        $this->prcJobTitle = $prcJobTitle;
+    }
+
+    function setPrcEmail($prcEmail) {
+        $this->prcEmail = $prcEmail;
+    }
+
+    function setPrcCreatedDate(\DateTime $prcCreatedDate) {
+        $this->prcCreatedDate = $prcCreatedDate;
+    }
+
+    function setPrcUpdatedDate(\DateTime $prcUpdatedDate) {
+        $this->prcUpdatedDate = $prcUpdatedDate;
+    }
+
+    function setPrcId($prcId) {
+        $this->prcId = $prcId;
+    }
+
+    function setPrcProId($prcProId) {
+        $this->prcProId = $prcProId;
     }
 
 }

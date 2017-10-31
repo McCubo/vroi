@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="aml_provider_eval_score", indexes={@ORM\Index(name="FK_pes_evp", columns={"pes_evp_id"}), @ORM\Index(name="FK_pes_pre", columns={"pes_pre_id"})})
  * @ORM\Entity
  */
-class AmlProviderEvalScore
-{
+class AmlProviderEvalScore {
+
     /**
      * @var integer
      *
@@ -29,24 +29,49 @@ class AmlProviderEvalScore
     private $pesId;
 
     /**
-     * @var \AppBundle\Entity\AmlEvaluationPoint
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlEvaluationPoint")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pes_evp_id", referencedColumnName="evp_id")
-     * })
+     * @ORM\Column(name="pes_evp_id", type="integer", nullable=false)
      */
-    private $pesEvp;
+    private $pesEvpId;
 
     /**
-     * @var \AppBundle\Entity\AmlProviderEvaluation
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlProviderEvaluation")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pes_pre_id", referencedColumnName="pre_id")
-     * })
+     * @ORM\Column(name="pes_pre_id", type="integer", nullable=false)
      */
-    private $pesPre;
+    private $pesPreId;
 
+    function getPesScore() {
+        return $this->pesScore;
+    }
+
+    function getPesId() {
+        return $this->pesId;
+    }
+
+    function getPesEvpId() {
+        return $this->pesEvpId;
+    }
+
+    function getPesPreId() {
+        return $this->pesPreId;
+    }
+
+    function setPesScore($pesScore) {
+        $this->pesScore = $pesScore;
+    }
+
+    function setPesId($pesId) {
+        $this->pesId = $pesId;
+    }
+
+    function setPesEvpId($pesEvpId) {
+        $this->pesEvpId = $pesEvpId;
+    }
+
+    function setPesPreId($pesPreId) {
+        $this->pesPreId = $pesPreId;
+    }
 
 }

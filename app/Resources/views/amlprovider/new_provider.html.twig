@@ -132,31 +132,17 @@
                                             <div class="col-lg-12">
                                                 <h3>Rate this provider</h3>
                                             </div>
-                                            <div >
-                                                <div class="form-group col-lg-4">
-                                                    <label>Agility</label>
-                                                    <select name="evaluation[1]" id="firstQuestion" >
-                                                        {% for i in 1..5%}
-                                                            <option value="{{i}}">{{i}}</option>
-                                                        {% endfor%}
-                                                    </select>
-                                                </div>
-                                                <div class="form-group col-lg-4">
-                                                    <label>Fare</label>
-                                                    <select name="evaluation[2]" id="secondQuestion" >
-                                                        {% for i in 1..5%}
-                                                            <option value="{{i}}">{{i}}</option>
-                                                        {% endfor%}
-                                                    </select>
-                                                </div>
-                                                <div class="form-group col-lg-4">
-                                                    <label>Credit</label>
-                                                    <select name="evaluation[3]" id="thirdQuestion" >
-                                                        {% for i in 1..5%}
-                                                            <option value="{{i}}">{{i}}</option>
-                                                        {% endfor%}
-                                                    </select>
-                                                </div>
+                                            <div class="row-fluid" >
+                                                {% for amlEvaluationPoint in amlEvaluationPoints %}
+                                                    <div class="form-group col-lg-4">
+                                                        <label>{{ amlEvaluationPoint.evpName }}</label>
+                                                        <select name="evaluation[{{amlEvaluationPoint.evpId}}]" class="stars">
+                                                            {% for i in 1..5%}
+                                                                <option value="{{i}}">{{i}}</option>
+                                                            {% endfor%}
+                                                        </select>
+                                                    </div>
+                                                {% endfor %}
                                             </div>
                                             <div class="form-group">
                                                 <label>Upload documents</label>
@@ -210,13 +196,7 @@
             filter: true,
             selectAll: false
         });
-        $('#firstQuestion').barrating({
-            theme: 'fontawesome-stars'
-        });
-        $('#secondQuestion').barrating({
-            theme: 'fontawesome-stars'
-        });
-        $('#thirdQuestion').barrating({
+        $('.stars').barrating({
             theme: 'fontawesome-stars'
         });
         $('#providerRelationListbox').multipleSelect({

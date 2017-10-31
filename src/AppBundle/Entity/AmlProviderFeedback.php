@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class AmlProviderFeedback
-{
+class AmlProviderFeedback {
+
     /**
      * @var \DateTime
      *
@@ -37,30 +37,64 @@ class AmlProviderFeedback
     private $prfId;
 
     /**
-     * @var \AppBundle\Entity\AmlProvider
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlProvider")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="prf_pro_id", referencedColumnName="pro_id")
-     * })
+     * @ORM\Column(name="prf_pro_id", type="integer", nullable=false)
      */
-    private $prfPro;
+    private $prfProId;
 
     /**
-     * @var \AppBundle\Entity\AmlUser
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlUser")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="prf_use_id", referencedColumnName="use_id")
-     * })
+     * @ORM\Column(name="prf_use_id", type="integer", nullable=false)
      */
-    private $prfUse;
+    private $prfUseId;
 
-   /**
+    /**
      * @ORM\PrePersist
      */
-    public function setCreatedAtValue()
-    {
+    public function setCreatedAtValue() {
         $this->prfDate = new \DateTime();
     }
+
+    function getPrfComment() {
+        return $this->prfComment;
+    }
+
+    function getPrfId() {
+        return $this->prfId;
+    }
+
+    function getPrfProId() {
+        return $this->prfProId;
+    }
+
+    function getPrfUseId() {
+        return $this->prfUseId;
+    }
+
+    function setPrfComment($prfComment) {
+        $this->prfComment = $prfComment;
+    }
+
+    function setPrfId($prfId) {
+        $this->prfId = $prfId;
+    }
+
+    function setPrfProId($prfProId) {
+        $this->prfProId = $prfProId;
+    }
+
+    function setPrfUseId($prfUseId) {
+        $this->prfUseId = $prfUseId;
+    }
+
+    function getPrfDate(): \DateTime {
+        return $this->prfDate;
+    }
+
+    function setPrfDate(\DateTime $prfDate) {
+        $this->prfDate = $prfDate;
+    }
+
 }
