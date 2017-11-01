@@ -12,6 +12,8 @@ use AppBundle\Entity\AmlProviderEvaluation;
 use AppBundle\Entity\AmlProviderEvalScore;
 use AppBundle\Entity\AmlProviderFeedback;
 use AppBundle\Entity\AmlProviderContact;
+use AppBundle\Entity\AmlProviderService;
+use AppBundle\Entity\AmlProviderRelation;
 
 class AmlProviderController extends Controller {
 
@@ -26,7 +28,7 @@ class AmlProviderController extends Controller {
         $amlProvidersType = $em->getRepository('AppBundle:AmlProviderType')->findBy(array("prtStatus" => 1));
         $amlAffiliation = $em->getRepository('AppBundle:AmlProviderAfiliation')->findBy(array("praStatus" => 1));
         $amlProviders = $em->getRepository('AppBundle:AmlProvider')->findAll();
-        $amlEvaluationPoints = $em->getRepository("AppBundle:AmlEvaluationPoint")->findAll();
+        $amlEvaluationPoints = $em->getRepository("AppBundle:AmlEvaluationPoint")->findBy(array("evpStatus" => 1));
         return $this->render('amlprovider/new_provider.html.twig', array(
                     'amlServices' => $amlServices,
                     "amlCountries" => $amlCountries,
@@ -36,6 +38,21 @@ class AmlProviderController extends Controller {
                     "amlProviders" => $amlProviders,
                     "amlEvaluationPoints" => $amlEvaluationPoints
         ));
+    }
+
+    /**
+     * 
+     * @Route("/admin/provider/get/cities/country", name="get_cities_by_couid")
+     */
+    public function getCityListByCountry(Request $request) {
+        $aData = array();
+        $iCountryID = $request->query->get("cou_id");
+        $em = $this->getDoctrine()->getManager();
+        $amlCities = $em->getRepository('AppBundle:AmlCity')->getCityListByCountry($iCountryID);
+        foreach ($amlCities as $amlCity) {
+            array_push($aData, array("city_name" => $amlCity->getCitName(), "city_id" => $amlCity->getCitId()));
+        }
+        return new JsonResponse($aData);
     }
 
     /**
@@ -109,7 +126,21 @@ class AmlProviderController extends Controller {
             $em->flush();
         }
 
+        foreach ($aFormParameter["pro_services"] as $iServiceId) {
+            $amlProviderService = new AmlProviderService();
+            $amlProviderService->setPrsProId($proId);
+            $amlProviderService->setPrsSerId($iServiceId);
+            $em->persist($amlProviderService);
+            $em->flush();
+        }
 
+        foreach ($aFormParameter["pro_relations"] as $iProviderID) {
+            $amlProviderRelation = new AmlProviderRelation();
+            $amlProviderRelation->setPrrParentProId($proId);
+            $amlProviderRelation->setPrrChildProId($iProviderID);
+            $em->persist($amlProviderRelation);
+            $em->flush();
+        }
         return $this->redirectToRoute('home');
     }
 

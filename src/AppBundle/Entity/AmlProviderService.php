@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class AmlProviderService
-{
+class AmlProviderService {
+
     /**
      * @var boolean
      *
@@ -44,38 +44,82 @@ class AmlProviderService
     private $prsId;
 
     /**
-     * @var \AppBundle\Entity\AmlProvider
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlProvider")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="prs_pro_id", referencedColumnName="pro_id")
+     * @ORM\Column(name="prs_pro_id", type="integer", nullable=false)
      * })
      */
-    private $prsPro;
+    private $prsProId;
 
     /**
-     * @var \AppBundle\Entity\AmlService
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlService")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="prs_ser_id", referencedColumnName="ser_id")
+     * @ORM\Column(name="prs_ser_id", type="integer", nullable=false)
      * })
      */
-    private $prsSer;
+    private $prsSerId;
 
-   /**
+    /**
      * @ORM\PrePersist
      */
-    public function setCreatedAtValue()
-    {
+    public function setCreatedAtValue() {
+        $this->prsStatus = 1;
         $this->prsCreatedDate = new \DateTime();
     }
 
-   /**
+    /**
      * @ORM\PreUpdate
      */
-    public function setUpdatedAtValue()
-    {
+    public function setUpdatedAtValue() {
         $this->prsUpdatedDate = new \DateTime();
     }
+
+    function getPrsStatus() {
+        return $this->prsStatus;
+    }
+
+    function getPrsCreatedDate(): \DateTime {
+        return $this->prsCreatedDate;
+    }
+
+    function getPrsUpdatedDate(): \DateTime {
+        return $this->prsUpdatedDate;
+    }
+
+    function getPrsId() {
+        return $this->prsId;
+    }
+
+    function getPrsProId() {
+        return $this->prsProId;
+    }
+
+    function getPrsSerId() {
+        return $this->prsSerId;
+    }
+
+    function setPrsStatus($prsStatus) {
+        $this->prsStatus = $prsStatus;
+    }
+
+    function setPrsCreatedDate(\DateTime $prsCreatedDate) {
+        $this->prsCreatedDate = $prsCreatedDate;
+    }
+
+    function setPrsUpdatedDate(\DateTime $prsUpdatedDate) {
+        $this->prsUpdatedDate = $prsUpdatedDate;
+    }
+
+    function setPrsId($prsId) {
+        $this->prsId = $prsId;
+    }
+
+    function setPrsProId($prsProId) {
+        $this->prsProId = $prsProId;
+    }
+
+    function setPrsSerId($prsSerId) {
+        $this->prsSerId = $prsSerId;
+    }
+
 }

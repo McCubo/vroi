@@ -30,30 +30,56 @@ class AmlProviderRelation {
     private $prrId;
 
     /**
-     * @var \AppBundle\Entity\AmlProvider
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlProvider")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="prr_child_pro_id", referencedColumnName="pro_id")
-     * })
+     * @ORM\Column(name="prr_child_pro_id", type="integer", nullable=false)
      */
-    private $prrChildPro;
+    private $prrChildProId;
 
     /**
-     * @var \AppBundle\Entity\AmlProvider
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AmlProvider")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="prr_parent_pro_id", referencedColumnName="pro_id")
-     * })
+     * @ORM\Column(name="prr_parent_pro_id", type="integer", nullable=false)
      */
-    private $prrParentPro;
+    private $prrParentProId;
 
     /**
      * @ORM\PrePersist
      */
     public function setCreatedAtValue() {
         $this->prrCreatedDate = new \DateTime();
+    }
+
+    function getPrrCreatedDate(): \DateTime {
+        return $this->prrCreatedDate;
+    }
+
+    function getPrrId() {
+        return $this->prrId;
+    }
+
+    function getPrrChildProId() {
+        return $this->prrChildProId;
+    }
+
+    function getPrrParentProId() {
+        return $this->prrParentProId;
+    }
+
+    function setPrrCreatedDate(\DateTime $prrCreatedDate) {
+        $this->prrCreatedDate = $prrCreatedDate;
+    }
+
+    function setPrrId($prrId) {
+        $this->prrId = $prrId;
+    }
+
+    function setPrrChildProId($prrChildProId) {
+        $this->prrChildProId = $prrChildProId;
+    }
+
+    function setPrrParentProId($prrParentProId) {
+        $this->prrParentProId = $prrParentProId;
     }
 
 }

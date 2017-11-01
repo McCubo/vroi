@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * AmlCity
  *
  * @ORM\Table(name="aml_city", uniqueConstraints={@ORM\UniqueConstraint(name="unique_citname_couid", columns={"cit_cou_id", "cit_name"})}, indexes={@ORM\Index(name="fk_aml_city_cou_idx", columns={"cit_cou_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AmlCityRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields= {"citName", "citCou"}, message="There is already a Configured City with that Name for the selected Country")
  */
