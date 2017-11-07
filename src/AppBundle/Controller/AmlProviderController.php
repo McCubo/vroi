@@ -10,10 +10,11 @@ use AppBundle\Entity\UploadFile;
 use AppBundle\Form\UploadFileType;
 use AppBundle\Entity\AmlProviderEvaluation;
 use AppBundle\Entity\AmlProviderEvalScore;
-use AppBundle\Entity\AmlProviderFeedback;
 use AppBundle\Entity\AmlProviderContact;
 use AppBundle\Entity\AmlProviderService;
 use AppBundle\Entity\AmlProviderRelation;
+use AppBundle\Entity\AmlProviderAttachment;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AmlProviderController extends Controller {
 
@@ -60,45 +61,47 @@ class AmlProviderController extends Controller {
      * @Route("/admin/provider_save", name="provider_save")
      */
     public function doSaveAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $aData = array('message_list' => array(), "error_list" => array());
         $user = $this->getUser();
         $uploadFile = new UploadFile();
         $form = $this->createForm(UploadFileType::class, $uploadFile);
         $form->handleRequest($request);
         $oFile = $uploadFile->getFileDoc();
-        $clientOriginalName = $oFile->getClientOriginalName();
+        $fileName = md5(uniqid()) . '.' . $oFile->guessExtension();
+        $sOriginalFileName = $oFile->getClientOriginalName();
 
-        $file = $request->files->get("file_doc");
-        # $file2 = $request->files->get("file");
-        # $all0 = $request->files->all();
-        /*
-          if ($file != null) {
-          print_r("FILE!");
-          }
-         */
         $aFormParameter = $request->request->all();
-
+        $amlProviders = $em->getRepository('AppBundle:AmlProvider')->findBy(array("proName" => $aFormParameter['provider']['name']));
+        if (count($amlProviders) > 0) {
+            array_push($aData["error_list"], "There is already a provider with that name");
+            return new JsonResponse($aData);
+        }
         $amlProvider = new AmlProvider();
         $amlProvider->setProName($aFormParameter['provider']['name']);
         $amlProvider->setProAddress($aFormParameter['provider']['address']);
-        $amlProvider->setProCitId(1);
+        $amlProvider->setProCitId($aFormParameter['provider']['city_id']);
         $amlProvider->setProMainPhoneNumber($aFormParameter['provider']['main_phone']);
         $amlProvider->setProPrgId($aFormParameter['provider']['group']);
         $amlProvider->setProPrtId($aFormParameter['provider']['type']);
         $amlProvider->setProPraId($aFormParameter['provider']['affiliation']);
         $amlProvider->setProDescription($aFormParameter['provider']['description']);
         $amlProvider->setProSiteUrl($aFormParameter['provider']['url']);
-        $em = $this->getDoctrine()->getManager();
+        $amlProvider->setProFax($aFormParameter['provider']['fax']);        
         $em->persist($amlProvider);
         $em->flush();
+        array_push($aData["message_list"], "Provider ({$aFormParameter['provider']['name']}) was successfully added!");
         $proId = $amlProvider->getProId();
-
+        
+        // Adding a new evaluation
         $amlProviderEvaluation = new AmlProviderEvaluation();
         $amlProviderEvaluation->setPreProId($proId);
         $amlProviderEvaluation->setPreUseId($user->getUseId());
         $em->persist($amlProviderEvaluation);
         $em->flush();
         $preId = $amlProviderEvaluation->getPreId();
-
+        
+        //  Adding scores to the evaluation
         foreach ($aFormParameter['evaluation'] as $key => $eval) {
             $amlProviderEvalScore = new AmlProviderEvalScore();
             $amlProviderEvalScore->setPesPreId($preId);
@@ -108,13 +111,7 @@ class AmlProviderController extends Controller {
             $em->flush();
         }
 
-        $amlProviderFeedback = new AmlProviderFeedback();
-        $amlProviderFeedback->setPrfComment($aFormParameter["feedback_text"]);
-        $amlProviderFeedback->setPrfProId($proId);
-        $amlProviderFeedback->setPrfUseId($user->getUseId());
-        $em->persist($amlProviderFeedback);
-        $em->flush();
-
+        // Adding a list of contacts
         foreach ($aFormParameter["contact"] as $contact) {
             $amlProviderContact = new AmlProviderContact();
             $amlProviderContact->setPrcName($contact["name"]);
@@ -126,22 +123,41 @@ class AmlProviderController extends Controller {
             $em->flush();
         }
 
-        foreach ($aFormParameter["pro_services"] as $iServiceId) {
-            $amlProviderService = new AmlProviderService();
-            $amlProviderService->setPrsProId($proId);
-            $amlProviderService->setPrsSerId($iServiceId);
-            $em->persist($amlProviderService);
-            $em->flush();
+        // If there is any service, Insert them
+        if (array_key_exists("pro_services", $aFormParameter)) {
+            foreach ($aFormParameter["pro_services"] as $iServiceId) {
+                $amlProviderService = new AmlProviderService();
+                $amlProviderService->setPrsProId($proId);
+                $amlProviderService->setPrsSerId($iServiceId);
+                $em->persist($amlProviderService);
+                $em->flush();
+            }
+        }
+        
+        
+        if (array_key_exists("pro_relations", $aFormParameter)) {
+            foreach ($aFormParameter["pro_relations"] as $iProviderID) {
+                $amlProviderRelation = new AmlProviderRelation();
+                $amlProviderRelation->setPrrParentProId($proId);
+                $amlProviderRelation->setPrrChildProId($iProviderID);
+                $em->persist($amlProviderRelation);
+                $em->flush();
+            }
         }
 
-        foreach ($aFormParameter["pro_relations"] as $iProviderID) {
-            $amlProviderRelation = new AmlProviderRelation();
-            $amlProviderRelation->setPrrParentProId($proId);
-            $amlProviderRelation->setPrrChildProId($iProviderID);
-            $em->persist($amlProviderRelation);
-            $em->flush();
-        }
-        return $this->redirectToRoute('home');
+        // Saving attachment
+        $amlProviderAttachment = new AmlProviderAttachment();
+        $amlProviderAttachment->setPatComment($aFormParameter["feedback_text"]);
+        $amlProviderAttachment->setPatPro($amlProvider);
+        $amlProviderAttachment->setPatUse($user);
+        $amlProviderAttachment->setPatFilePath($fileName);
+        $amlProviderAttachment->setPatOriginalName($sOriginalFileName);
+        $em->persist($amlProviderAttachment);
+        $em->flush();
+        $oFile->move($this->getParameter('provider_file_directory'), $fileName);
+        
+        // Returning JSON response
+        return new JsonResponse($aData);
     }
 
 }

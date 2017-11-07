@@ -16,6 +16,13 @@ class AmlProviderAttachment {
     /**
      * @var string
      *
+     * @ORM\Column(name="pat_original_name", type="string", length=250, nullable=false)
+     */
+    private $patOriginalName;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="pat_comment", type="string", length=250, nullable=false)
      */
     private $patComment;
@@ -74,7 +81,7 @@ class AmlProviderAttachment {
         return $this->patComment;
     }
 
-    function getPatUploadDate(): \DateTime {
+    function getPatUploadDate() {
         return $this->patUploadDate;
     }
 
@@ -86,11 +93,11 @@ class AmlProviderAttachment {
         return $this->patId;
     }
 
-    function getPatPro(): \AppBundle\Entity\AmlProvider {
+    function getPatPro() {
         return $this->patPro;
     }
 
-    function getPatUse(): \AppBundle\Entity\AmlUser {
+    function getPatUse() {
         return $this->patUse;
     }
 
@@ -116,6 +123,14 @@ class AmlProviderAttachment {
 
     function setPatUse(\AppBundle\Entity\AmlUser $patUse) {
         $this->patUse = $patUse;
+    }
+
+    function getPatOriginalName() {
+        return $this->patOriginalName;
+    }
+
+    function setPatOriginalName($patOriginalName) {
+        $this->patOriginalName = $patOriginalName;
     }
 
 }

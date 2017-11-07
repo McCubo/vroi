@@ -1,5 +1,6 @@
 # This file is auto-generated during the composer install
 parameters:
+    provider_file_directory: '%kernel.root_dir%/../web/uploads/provider_files'
     database_host: 127.0.0.1
     database_port: 3306
     database_name: db_alg

@@ -549,3 +549,9 @@ foreign key (prr_child_pro_id) references `aml_provider`(pro_id);
 ALTER TABLE `db_alg`.`aml_provider`
 add constraint FK_provider_city
 foreign key (pro_cit_id) references `aml_city`(cit_id);
+
+ALTER TABLE `db_alg`.`aml_provider_attachment` 
+ADD COLUMN `pat_original_name` VARCHAR(250) NOT NULL AFTER `pat_file_path`;
+
+ALTER TABLE `db_alg`.`aml_provider` 
+ADD COLUMN `pro_fax` VARCHAR(45) NOT NULL AFTER `pro_updated_date`;

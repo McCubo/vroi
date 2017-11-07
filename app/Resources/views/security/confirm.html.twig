@@ -4,6 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <link href="{{ asset('css/error.css') }}" rel="stylesheet" type="text/css" media="all">
+        <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
     </head>
     <body>
         <!---728x90-->
@@ -13,19 +14,21 @@
             <div class="content">
                 <!---start-logo-->
                 <div class="logo">
-                    <h1><a href="#"><img src="{{ asset('images/unlocked.png') }}"></a></h1>
+                    <a href="#"><img src="{{ asset('images/unlocked.png') }}"></a>
                     <span>                        
-                        Account has been activated Successfully.
+                        Your account has been successfully activated.
                     </span>
                 </div>
                 <!--end-logo-->
                 <!--start-search-bar-section-->
-                <div class="buttom">
-                    <img src="{{ asset('images/signal.png')}}" /><span style="color: white">By default, your password is the same as your username. 
-                        You can change it anytime by going to <strong>User Setting > My Profile.</strong>
-                        Click here to go to the log in page: <a style="color: white" href="{{ path('login') }}">LOG IN PAGE</a>
+                <div class="alert alert-success" role="alert">
+                    <span>By default, your password is the same as your username. 
+                        You can change it anytime by going to <strong>User Setting > My Profile.</strong>                        
                     </span>
                 </div>
+                <div class="alert alert-success" role="alert">
+                    Click here to go to the log in page: <a href="{{ path('login') }}">LOG IN PAGE</a>
+                </div>                
                 <!--end-sear-bar-->
             </div>
         </div>

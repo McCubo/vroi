@@ -16,6 +16,13 @@ class AmlProvider {
     /**
      * @var string
      *
+     * @ORM\Column(name="pro_fax", type="string", length=45, nullable=false)
+     */
+    private $proFax;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="pro_name", type="string", length=45, nullable=false)
      */
     private $proName;
@@ -223,6 +230,14 @@ class AmlProvider {
 
     function setProPrtId($proPrtId) {
         $this->proPrtId = $proPrtId;
+    }
+
+    function getProFax() {
+        return $this->proFax;
+    }
+
+    function setProFax($proFax) {
+        $this->proFax = $proFax;
     }
 
 }
