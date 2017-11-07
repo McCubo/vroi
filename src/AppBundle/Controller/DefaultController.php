@@ -12,18 +12,6 @@ use AppBundle\Form\UploadFileType;
 class DefaultController extends Controller {
 
     /**
-     * @Route("/", name="home")
-     * @Security("has_role('ROLE_USER')")
-     */
-    public function homeAction(Request $request) {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            throw $this->createAccessDeniedException();
-        }
-        $user = $this->getUser();
-        return $this->render("temp/temp.html.twig");
-    }
-
-    /**
      * @Route("/temp/admin", name="temp")
      * @Security("has_role('ROLE_ADMIN')")
      */

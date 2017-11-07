@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AmlProvider
  *
  * @ORM\Table(name="aml_provider", uniqueConstraints={@ORM\UniqueConstraint(name="pro_name_UNIQUE", columns={"pro_name"})}, indexes={@ORM\Index(name="FK_provider_afiliation", columns={"pro_pra_id"}), @ORM\Index(name="FK_provider_group", columns={"pro_prg_id"}), @ORM\Index(name="FK_provider_type", columns={"pro_prt_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AmlProviderRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class AmlProvider {
