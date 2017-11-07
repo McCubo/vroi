@@ -22,4 +22,38 @@ class AmlProviderRepository extends EntityRepository {
         return $stmt->fetchAll();
     }
 
+    public function getProviderRankById($proID) {
+        $sSqlQuery = "select"
+                . " avg(pes.pes_score) as rating"
+                . " from aml_provider pro"
+                . " inner join aml_provider_evaluation pre ON pre.pre_pro_id = pro.pro_id"
+                . " inner join aml_provider_eval_score pes ON pes.pes_pre_id = pre.pre_id"
+                . " WHERE pro.pro_id = {$proID}"
+                . " group by pro.pro_id;";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sSqlQuery);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public function getProviderRankByIdAndPoint($proID) {
+        $sSqlQuery = "select "
+                . " pes.pes_evp_id,"
+                . " avg(pes.pes_score) as rating"
+                . " from aml_provider pro"
+                . " inner join aml_provider_evaluation pre ON pre.pre_pro_id = pro.pro_id"
+                . " inner join aml_provider_eval_score pes ON pes.pes_pre_id = pre.pre_id"
+                . " WHERE pro.pro_id = {$proID}"
+                . " group by pro.pro_id, pes.pes_evp_id;";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sSqlQuery);
+        $stmt->execute();
+        $aResult = $stmt->fetchAll();
+        $aData = array();
+        foreach ($aResult as $aRecord) {
+            $aData[$aRecord["pes_evp_id"]] = $aRecord["rating"];
+        }
+        return $aData;
+    }
+
 }

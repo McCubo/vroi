@@ -30,8 +30,22 @@ class HomeController extends Controller {
      * @Route("/provider/{proId}/edit", name="provider_edit")
      * @Security("has_role('ROLE_USER')")
      */
-    public function showProviderAction(Request $request) {
-        
+    public function showProviderAction(Request $request, $proId) {
+        $em = $this->getDoctrine()->getManager();
+        $amlProvider = $em->getRepository('AppBundle:AmlProvider')->find($proId);
+        if (is_null($amlProvider)) {
+            throw $this->createNotFoundException("Provider not Found");
+        }
+        $amlEvaluationPoints = $em->getRepository("AppBundle:AmlEvaluationPoint")->findBy(array("evpStatus" => 1));
+        $iCurrentScoreAvg = $em->getRepository('AppBundle:AmlProvider')->getProviderRankById($proId);
+        $aCurrentScoreAvgPoint = $em->getRepository('AppBundle:AmlProvider')->getProviderRankByIdAndPoint($proId);
+
+        return $this->render("amlhome/show_provider.html.twig", array(
+                    "amlProvider" => $amlProvider,
+                    "amlEvaluationPoints" => $amlEvaluationPoints,
+                    "iCurrentScoreAvg" => $iCurrentScoreAvg[0]["rating"],
+                    "aCurrentScoreAvgPoint" => $aCurrentScoreAvgPoint
+        ));
     }
 
 }
