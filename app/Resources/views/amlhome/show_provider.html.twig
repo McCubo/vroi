@@ -135,7 +135,10 @@
                                             <div class="row-fluid" >
                                                 {% for amlEvaluationPoint in amlEvaluationPoints %}
                                                     <div class="form-group col-lg-3">
-                                                        <label>{{ amlEvaluationPoint.evpName }}</label>{{amlEvaluationPoint.evpId}} <span style="color: green;">{{ aCurrentScoreAvgPoint[amlEvaluationPoint.evpId] }}<span></span></span>
+                                                        <label>{{ amlEvaluationPoint.evpName }}</label>
+                                                        <span style="color: {{ aCurrentScoreAvgPoint[amlEvaluationPoint.evpId]["class"] }};">
+                                                            [{{ aCurrentScoreAvgPoint[amlEvaluationPoint.evpId]["score"] }}]
+                                                        </span>
                                                         <select name="evaluation[{{amlEvaluationPoint.evpId}}]" class="stars">
                                                             {% for i in 1..5%}
                                                                 <option value="{{i}}">{{i}}</option>

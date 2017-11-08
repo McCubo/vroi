@@ -39,12 +39,18 @@ class HomeController extends Controller {
         $amlEvaluationPoints = $em->getRepository("AppBundle:AmlEvaluationPoint")->findBy(array("evpStatus" => 1));
         $iCurrentScoreAvg = $em->getRepository('AppBundle:AmlProvider')->getProviderRankById($proId);
         $aCurrentScoreAvgPoint = $em->getRepository('AppBundle:AmlProvider')->getProviderRankByIdAndPoint($proId);
+        $aProvider = $em->getRepository('AppBundle:AmlProvider')->getProviderArrayById($proId);
+        $amlProviders = $em->getRepository('AppBundle:AmlProvider')->findAll();
+        $amlServices = $em->getRepository('AppBundle:AmlService')->findAll();
 
         return $this->render("amlhome/show_provider.html.twig", array(
                     "amlProvider" => $amlProvider,
                     "amlEvaluationPoints" => $amlEvaluationPoints,
                     "iCurrentScoreAvg" => $iCurrentScoreAvg[0]["rating"],
-                    "aCurrentScoreAvgPoint" => $aCurrentScoreAvgPoint
+                    "aCurrentScoreAvgPoint" => $aCurrentScoreAvgPoint,
+                    "aProvider" => $aProvider,
+                    "amlProviders" => $amlProviders,
+                    "amlServices" => $amlServices
         ));
     }
 

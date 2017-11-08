@@ -218,9 +218,8 @@
                         for (c = 0; c < data.error_list.length; c++) {
                             $.growl.error(
                                     {
-                                        title: "Error while trying to save ,the new record",
-                                        message: data.error_list[c],
-                                        fixed: true
+                                        title: "Error while trying to save the new record",
+                                        message: data.error_list[c]
                                     }
                             );
 
@@ -239,14 +238,15 @@
                             sleep(2500).then(() => {
                                 window.location.reload(true);
                             });
+                        } else {
+                            $('#save_button').prop('disabled', false);
                         }
-                        $('#save_button').prop('disabled', false);
+                        
                     },
                     cache: false,
                     contentType: false,
                     processData: false
-                });
-                $('#save_button').prop('disabled', false);
+                });                
                 return false;
             });
         });
