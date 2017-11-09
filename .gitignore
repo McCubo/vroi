@@ -6,3 +6,4 @@ app/logs*
 nbproject/*
 web/cc.php
 web/images/.directory
+web/uploads/provider_files/*
