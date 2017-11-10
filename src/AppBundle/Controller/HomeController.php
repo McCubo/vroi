@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class HomeController extends Controller {
 
@@ -40,7 +41,7 @@ class HomeController extends Controller {
         $iCurrentScoreAvg = $em->getRepository('AppBundle:AmlProvider')->getProviderRankById($proId);
         $aCurrentScoreAvgPoint = $em->getRepository('AppBundle:AmlProvider')->getProviderRankByIdAndPoint($proId);
         $aProvider = $em->getRepository('AppBundle:AmlProvider')->getProviderArrayById($proId);
-        $amlProviders = $em->getRepository('AppBundle:AmlProvider')->findAll();
+        $amlProviders = $em->getRepository('AppBundle:AmlProvider')->getAllBut($proId);
         $amlServices = $em->getRepository('AppBundle:AmlService')->findAll();
 
         return $this->render("amlhome/show_provider.html.twig", array(
@@ -52,6 +53,25 @@ class HomeController extends Controller {
                     "amlProviders" => $amlProviders,
                     "amlServices" => $amlServices
         ));
+    }
+
+    /**
+     * 
+     * @Route("/provider/contact/delete", name="delete_provider_contact")
+     */
+    public function deleteProContactAction(Request $request) {
+        $aData = array("error_list" => array());
+        $prcId = $request->query->get("prcId");
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $oProContact = $em->getRepository('AppBundle:AmlProviderContact')->find($prcId);
+            $em->remove($oProContact);
+            $em->flush();
+        } catch (Exception $exc) {
+            array_push($aData["error_list"], $exc->getCode() . "::" . $exc->getMessage());
+        }
+
+        return new JsonResponse($aData);
     }
 
 }

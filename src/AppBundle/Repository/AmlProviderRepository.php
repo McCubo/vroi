@@ -6,6 +6,13 @@ use Doctrine\ORM\EntityRepository;
 
 class AmlProviderRepository extends EntityRepository {
 
+    public function getAllBut($proID) {
+        $result = $this->getEntityManager()->createQuery("SELECT p FROM AppBundle:AmlProvider p WHERE p.proId NOT IN (:id)")
+                ->setParameter('id', array($proID), \Doctrine\DBAL\Connection::PARAM_INT_ARRAY)
+                ->getResult();
+        return $result;
+    }
+
     public function getProviderRankList() {
         $sSqlQuery = "select"
                 . " pro.pro_id, pro.pro_name, avg(pes.pes_score) as rating, "
@@ -90,19 +97,27 @@ class AmlProviderRepository extends EntityRepository {
     }
 
     private function getRelationByProId($proID) {
-        $sQuery = "SELECT * FROM db_alg.aml_provider_relation r WHERE r.prr_parent_pro_id = {$proID};";
+        $aData = array();
+        $sQuery = "SELECT r.prr_child_pro_id FROM db_alg.aml_provider_relation r WHERE r.prr_parent_pro_id = {$proID};";
         $stmt = $this->getEntityManager()->getConnection()->prepare($sQuery);
         $stmt->execute();
         $aResult = $stmt->fetchAll();
-        return $aResult;
+        foreach ($aResult as $value) {
+            array_push($aData, $value["prr_child_pro_id"]);
+        }
+        return $aData;
     }
 
     private function getServiceListByProID($proID) {
-        $sQuery = "SELECT * FROM db_alg.aml_provider_service s where s.prs_pro_id = {$proID};";
+        $aData = array();
+        $sQuery = "SELECT s.prs_ser_id FROM db_alg.aml_provider_service s where s.prs_pro_id = {$proID};";
         $stmt = $this->getEntityManager()->getConnection()->prepare($sQuery);
         $stmt->execute();
         $aResult = $stmt->fetchAll();
-        return $aResult;
+        foreach ($aResult as $value) {
+            array_push($aData, $value["prs_ser_id"]);
+        }
+        return $aData;
     }
 
 }
