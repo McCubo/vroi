@@ -101,11 +101,11 @@ class AmlProviderContact {
         return $this->prcEmail;
     }
 
-    function getPrcCreatedDate(): \DateTime {
+    function getPrcCreatedDate() {
         return $this->prcCreatedDate;
     }
 
-    function getPrcUpdatedDate(): \DateTime {
+    function getPrcUpdatedDate() {
         return $this->prcUpdatedDate;
     }
 

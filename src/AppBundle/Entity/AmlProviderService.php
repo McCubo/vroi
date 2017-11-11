@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AmlProviderService
  *
  * @ORM\Table(name="aml_provider_service", indexes={@ORM\Index(name="FK_provider_service", columns={"prs_ser_id"}), @ORM\Index(name="FK_provider_provider", columns={"prs_pro_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AmlProviderServiceRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class AmlProviderService {
@@ -78,11 +78,11 @@ class AmlProviderService {
         return $this->prsStatus;
     }
 
-    function getPrsCreatedDate(): \DateTime {
+    function getPrsCreatedDate() {
         return $this->prsCreatedDate;
     }
 
-    function getPrsUpdatedDate(): \DateTime {
+    function getPrsUpdatedDate() {
         return $this->prsUpdatedDate;
     }
 

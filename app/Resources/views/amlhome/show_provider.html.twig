@@ -8,7 +8,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Show Provider :: {{ aProvider.pro_id }}</h1>
+                <h1 class="page-header">Show Provider</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -19,10 +19,11 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form name="upload_file" id="provider_form" role="form" data-action_url="{{ path('provider_save') }}" method="post" enctype="multipart/form-data">
+                                <form name="upload_file" id="provider_form" role="form" data-action_url="{{ path('edit_provider_action') }}" method="post">
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Name</label>
+                                            <input type="hidden" value="{{ aProvider.pro_id }}" name="provider[id]" />
                                             <input type="text" class="form-control" disabled="disabled" value="{{ aProvider.pro_name }}">
                                         </div>
                                         <div class="form-group">
@@ -211,35 +212,27 @@
                         for (c = 0; c < data.error_list.length; c++) {
                             $.growl.error(
                                     {
-                                        title: "Error while trying to save the new record",
+                                        title: "Error while trying to save the vendor",
                                         message: data.error_list[c],
                                         fixed: true
                                     }
                             );
 
                         }
-                        for (c = 0; c < data.message_list.length; c++) {
-                            $.growl.notice(
-                                    {
-                                        title: "Saved!",
-                                        message: "New provider was added to the Database!",
-                                        fixed: true
-                                    }
-                            );
-
-                        }
                         if (data.error_list.length === 0) {
+                            $.growl.notice({title: "Saved!", message: "Vendor was Successfully saved!", fixed: true});
                             sleep(2500).then(() => {
                                 window.location.reload(true);
                             });
+
+                        } else {
+                            $('#save_button').prop('disabled', false);
                         }
-                        $('#save_button').prop('disabled', false);
                     },
                     cache: false,
                     contentType: false,
                     processData: false
                 });
-                $('#save_button').prop('disabled', false);
                 return false;
             });
         });
@@ -262,7 +255,7 @@
         });
         $("#providerRelationListbox").multipleSelect("setSelects", {{ aProvider.relation_list|json_encode|raw }});
         $("#serviceListbox").multipleSelect("setSelects", {{ aProvider.service_list|json_encode|raw }});
-        
+
         var dynamicForms = new DynamicForms();
         dynamicForms.automaticallySetupForm();
     </script>
