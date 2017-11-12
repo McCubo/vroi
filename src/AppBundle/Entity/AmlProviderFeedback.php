@@ -89,7 +89,7 @@ class AmlProviderFeedback {
         $this->prfUseId = $prfUseId;
     }
 
-    function getPrfDate(): \DateTime {
+    function getPrfDate() {
         return $this->prfDate;
     }
 

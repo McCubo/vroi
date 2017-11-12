@@ -15,6 +15,7 @@ use AppBundle\Entity\AmlProviderService;
 use AppBundle\Entity\AmlProviderRelation;
 use AppBundle\Entity\AmlProviderAttachment;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use AppBundle\Entity\AmlProviderFeedback;
 
 class AmlProviderController extends Controller {
 
@@ -145,9 +146,17 @@ class AmlProviderController extends Controller {
             }
         }
 
+        # Saving feedback
+        $amlProviderFeedback = new AmlProviderFeedback();
+        $amlProviderFeedback->setPrfComment($aFormParameter["feedback_text"]);
+        $amlProviderFeedback->setPrfProId($proId);
+        $amlProviderFeedback->setPrfUseId($user->getUseId());
+        $em->persist($amlProviderFeedback);
+        $em->flush();
+                
         // Saving attachment
         $amlProviderAttachment = new AmlProviderAttachment();
-        $amlProviderAttachment->setPatComment($aFormParameter["feedback_text"]);
+        $amlProviderAttachment->setPatComment($sOriginalFileName);
         $amlProviderAttachment->setPatPro($amlProvider);
         $amlProviderAttachment->setPatUse($user);
         $amlProviderAttachment->setPatFilePath($fileName);
