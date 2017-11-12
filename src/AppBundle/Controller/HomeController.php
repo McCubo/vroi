@@ -12,6 +12,10 @@ use AppBundle\Entity\AmlProviderEvalScore;
 use AppBundle\Entity\AmlProviderContact;
 use AppBundle\Entity\AmlProviderService;
 use AppBundle\Entity\AmlProviderRelation;
+use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Entity\UploadFile;
+use AppBundle\Form\UploadFileType;
+use AppBundle\Entity\AmlProviderAttachment;
 
 class HomeController extends Controller {
 
@@ -29,6 +33,56 @@ class HomeController extends Controller {
         return $this->render("amlhome/index.html.twig", array(
                     "amlProviderList" => $amlProviderList
         ));
+    }
+
+    /**
+     * 
+     * @Route("/provider/modal/diagonal", name="modal_get_additional")
+     */
+    public function getAdditionalPartialAction(Request $request) {
+        $proId = $request->query->get("proId");
+        $em = $this->getDoctrine()->getManager();
+        $fileList = $em->getRepository('AppBundle:AmlProviderAttachment')->getAttachmentListByProId($proId);
+        $html = $this->renderView("amlhome/additional_info.html.twig", array("fileList" => $fileList, "proId" => $proId));
+        return new Response($html);
+    }
+
+    /**
+     * 
+     * @Route("/provider/modal/file/upload/diagonal", name="upload_single_file")
+     */
+    public function uploadFileAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $aData = array("error_list" => array(), "oData" => array());
+        $user = $this->getUser();
+        $uploadFile = new UploadFile();
+        $form = $this->createForm(UploadFileType::class, $uploadFile);
+        $form->handleRequest($request);
+        if (!$form->isValid()) {
+            foreach ($form->getErrors() as $error) {
+                array_push($aData["error_list"], $error->getMessage());
+            }
+            return new JsonResponse($aData);
+        }
+        $oFile = $uploadFile->getFileDoc();
+        $fileName = md5(uniqid()) . '.' . $oFile->guessExtension();
+        $aFormParameter = $request->request->all();
+        $amlProvider = $em->getRepository('AppBundle:AmlProvider')->find($aFormParameter["provider"]["id"]);
+        $amlProviderAttachment = new AmlProviderAttachment();
+        $amlProviderAttachment->setPatComment($oFile->getClientOriginalName());
+        $amlProviderAttachment->setPatPro($amlProvider);
+        $amlProviderAttachment->setPatUse($user);
+        $amlProviderAttachment->setPatFilePath($fileName);
+        $amlProviderAttachment->setPatOriginalName($oFile->getClientOriginalName());
+        $em->persist($amlProviderAttachment);
+        $em->flush();
+        $oFile->move($this->getParameter('provider_file_directory'), $fileName);
+        $aData["oData"]["id"] = $amlProviderAttachment->getPatId();
+        $aData["oData"]["file_name"] = $oFile->getClientOriginalName();
+        $aData["oData"]["file_link"] = $fileName;
+        $aData["oData"]["upload_date"] = $amlProviderAttachment->getPatUploadDate()->format("Y-m-d H:i:s");
+        $aData["oData"]["upload_by"] = $user->getPrintValue();
+        return new JsonResponse($aData);
     }
 
     /**

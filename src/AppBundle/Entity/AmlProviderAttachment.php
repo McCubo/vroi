@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AmlProviderAttachment
  *
  * @ORM\Table(name="aml_provider_attachment", indexes={@ORM\Index(name="FK_provider_file_use_id", columns={"pat_use_id"}), @ORM\Index(name="FK_provider_file_pro_id", columns={"pat_pro_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AmlProviderAttachmentRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class AmlProviderAttachment {

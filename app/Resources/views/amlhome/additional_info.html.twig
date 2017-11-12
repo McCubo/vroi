@@ -1,0 +1,88 @@
+<link href="{{ asset('vendor/datatables-plugins/dataTables.bootstrap.css') }}" rel="stylesheet">
+<link href="{{ asset('vendor/datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">
+<div class="form-group">
+    <label>Main phone number</label>
+    <input class="form-control" placeholder="Phone number" readonly="" type="tel" value="{{ fileList[0]['pro_main_phone_number']}}">
+</div>
+<div class="form-group">
+    <label>Address</label>
+    <input class="form-control" placeholder="Provider address" readonly="" type="text" value="{{ fileList[0]['pro_address']}}">
+</div>
+<!-- /.panel-heading -->
+<div class="table-responsive">
+    <table id="provider_file_tables" class="table table-striped table-bordered table-hover" data-folder="{{ asset('uploads/provider_files/') }}">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>File Name</th>
+                <th>Attached by</th>
+                <th>Attached Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in fileList %}
+                <tr>
+                    <td>{{ file.pat_id }}</td>
+                    <td><a href="{{ asset('uploads/provider_files/') }}{{file.pat_file_path}}">{{ file.pat_original_name }}</a></td>
+                    <td>{{ file.use_name}}</td>
+                    <td>{{ file.pat_upload_date }}</td>
+                </tr>
+            {% endfor %}                    
+        </tbody>
+    </table>
+</div>
+<!-- /.table-responsive -->
+<div class="form-group">
+    <form name="upload_file" id="provider_form" role="form" data-action_url="{{ path('upload_single_file') }}" method="post" enctype="multipart/form-data">
+        <label>Upload a new document</label>
+        <input id="upload_file_file_doc" name="upload_file[file_doc]" required="required" type="file">
+        <input type="hidden" name="provider[id]" value="{{ proId }}" />
+        <br />
+        <button name="provider_form[save]" type="submit" class="btn btn-primary" id="upload_button">Upload File</button>
+    </form>
+</div>
+<script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables-plugins/dataTables.bootstrap.min.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        var oTable = $('#provider_file_tables').DataTable({
+            paging: false,
+            ordering: false,
+            info: false,
+            searching: false
+        });
+
+        $("form#provider_form").submit(function () {
+            $('#upload_button').prop('disabled', true);
+            var formData = new FormData(this);
+            var sAction = $(this).data("action_url");
+            $.ajax({
+                url: sAction,
+                type: 'POST',
+                data: formData,
+                async: false,
+                success: function (data) {
+                    for (c = 0; c < data.error_list.length; c++) {
+                        $.growl.error({title: "Error", message: data.error_list[c]});
+                    }
+                    var sLink = $('#provider_file_tables').data('folder');
+                    var link = "<a href='" + sLink + data.oData.file_link + "'>" + data.oData.file_name + "</a>";
+                    if (data.error_list.length === 0) {
+                        oTable.row.add([
+                            data.oData.id,
+                            link,
+                            data.oData.upload_by,
+                            data.oData.upload_date
+                        ]).draw(false);
+                        $.growl.notice({title: "Uploaded!", message: "File was successfully uploaded!"});
+                    }
+                    $('#upload_button').prop('disabled', false);
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+            return false;
+        });
+    });
+</script>

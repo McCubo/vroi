@@ -276,7 +276,7 @@ class AmlUser implements AdvancedUserInterface, \Serializable {
     }
 
     public function getPrintValue() {
-        return $this->useEmail . "(" . $this->useName . ")";
+        return $this->useName . "(" . $this->useEmail . ")";
     }
 
     function getUseToken() {
