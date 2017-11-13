@@ -558,3 +558,10 @@ ADD COLUMN `pro_fax` VARCHAR(45) NOT NULL AFTER `pro_updated_date`;
 
 ALTER TABLE `db_alg`.`aml_country` 
 ADD COLUMN `cou_code` VARCHAR(5) NULL AFTER `cou_created_date`;
+
+CREATE TABLE `db_alg`.`aml_email_template` (
+  `ema_id` INT NOT NULL AUTO_INCREMENT,
+  `ema_body` LONGTEXT NOT NULL,
+  `ema_name` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`ema_id`),
+  UNIQUE INDEX `ema_name_UNIQUE` (`ema_name` ASC));
