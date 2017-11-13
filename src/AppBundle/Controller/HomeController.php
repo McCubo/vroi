@@ -74,7 +74,7 @@ class HomeController extends Controller {
      * 
      * @Route("/provider/modal/email/send/diagonal", name="modal_send_email")
      */
-    public function doActuallySendEmail(Request $request) {        
+    public function doActuallySendEmail(Request $request) {
         $aData = array("error_list" => array());
         try {
             $user = $this->getUser();
@@ -261,14 +261,16 @@ class HomeController extends Controller {
         // Adding a list of contacts
         if (array_key_exists("contact", $aFormParameter)) {
             foreach ($aFormParameter["contact"] as $contact) {
-                $amlProviderContact = new AmlProviderContact();
-                $amlProviderContact->setPrcName($contact["name"]);
-                $amlProviderContact->setPrcPhoneNumber($contact["phone"]);
-                $amlProviderContact->setPrcJobTitle($contact["job_title"]);
-                $amlProviderContact->setPrcEmail($contact["email"]);
-                $amlProviderContact->setPrcProId($proId);
-                $em->persist($amlProviderContact);
-                $em->flush();
+                if (!empty($contact["name"]) && !empty($contact["phone"]) && !empty($contact["job_title"]) & !empty($contact["email"])) {
+                    $amlProviderContact = new AmlProviderContact();
+                    $amlProviderContact->setPrcName($contact["name"]);
+                    $amlProviderContact->setPrcPhoneNumber($contact["phone"]);
+                    $amlProviderContact->setPrcJobTitle($contact["job_title"]);
+                    $amlProviderContact->setPrcEmail($contact["email"]);
+                    $amlProviderContact->setPrcProId($proId);
+                    $em->persist($amlProviderContact);
+                    $em->flush();
+                }
             }
         }
         $em->getRepository('AppBundle:AmlProviderService')->deleteByProviderId($proId);
