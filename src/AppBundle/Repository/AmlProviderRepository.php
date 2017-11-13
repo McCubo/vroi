@@ -6,6 +6,21 @@ use Doctrine\ORM\EntityRepository;
 
 class AmlProviderRepository extends EntityRepository {
 
+    public function getProviderCountByCountry() {
+        $sSqlQuery = "SELECT co.cou_code, count(p.pro_id) as counter"
+                . " FROM db_alg.aml_provider p"
+                . " inner join aml_city c on c.cit_id = p.pro_cit_id"
+                . " inner join aml_country co on co.cou_id = c.cit_cou_id"
+                . " group by co.cou_code;";
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sSqlQuery);
+        $stmt->execute();        
+        $aData = array();
+        foreach ($stmt->fetchAll() as $record) {
+            $aData[$record["cou_code"]] = $record["counter"];
+        }
+        return $aData;
+    }
+
     public function getAllBut($proID) {
         $result = $this->getEntityManager()->createQuery("SELECT p FROM AppBundle:AmlProvider p WHERE p.proId NOT IN (:id)")
                 ->setParameter('id', array($proID), \Doctrine\DBAL\Connection::PARAM_INT_ARRAY)

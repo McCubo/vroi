@@ -18,6 +18,13 @@
                         {{ form_errors(form.couName) }}
                     </small>
                 </div>
+                <div class="form-group">
+                    <label>Country Code:</label>
+                    {{ form_widget(form.couCode, { 'attr': {'class': 'form-control'} }) }}
+                    <small class="form-text text-muted">
+                        {{ form_errors(form.couCode) }}
+                    </small>
+                </div>
                 <input type="submit" class="btn btn-success" value="Create" />
                 <input type="reset" class="btn btn-danger" value="Reset Values in Form" />
                 <a href="{{ path('admin_country_index') }}">

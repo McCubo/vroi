@@ -160,7 +160,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#modalcomments">
+                                                    <button data-action_url="{{ url('modal_get_feedback') }}" type="button" id="feedback_modal_button" class="btn btn-primary btn-lg btn-block" data-toggle="modal">
                                                         View Comments
                                                     </button>
                                                 </div>                                                
@@ -194,6 +194,19 @@
             </div>
         </div>
     </div>
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" id="main_modal_feedback">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Comments</h4>
+                </div>
+                <div class="modal-body" id="body_modal_feedback">
+
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('js/multiple-select.js') }}"></script>
@@ -211,15 +224,28 @@
                 $.ajax({
                     url: sAction,
                     type: 'GET',
-                    data: { proId :  $("#provider_id").val() },
+                    data: {proId: $("#provider_id").val()},
                     async: false,
-                    success: function (data) {                        
+                    success: function (data) {
                         $("#body_additional_info_modal").html(data);
                         $("#main_modal_additional_information").modal("show");
                     }
-                });                
+                });
             });
 
+            $("#feedback_modal_button").on("click", function () {
+                var sAction = $(this).data("action_url");
+                $.ajax({
+                    url: sAction,
+                    type: 'GET',
+                    data: {proId: $("#provider_id").val()},
+                    async: false,
+                    success: function (data) {
+                        $("#body_modal_feedback").html(data);
+                        $("#main_modal_feedback").modal("show");
+                    }
+                });
+            });
             $(".remove_contact").on("click", function () {
                 var prcId = $(this).data("prc_id");
                 if (confirm("Do you really want to delete this contact?")) {

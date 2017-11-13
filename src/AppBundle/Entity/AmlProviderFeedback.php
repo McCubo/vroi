@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AmlProviderFeedback
  *
  * @ORM\Table(name="aml_provider_feedback", indexes={@ORM\Index(name="FK_prf_pro_id", columns={"prf_pro_id"}), @ORM\Index(name="FK_prf_use_id", columns={"prf_use_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AmlProviderFeedbackRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class AmlProviderFeedback {

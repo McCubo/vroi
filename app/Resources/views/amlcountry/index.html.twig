@@ -15,14 +15,16 @@
                 <table id="catalog_list" class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>Couname</th>
-                            <th>Coucreateddate</th>
+                            <th>Country Name</th>
+                            <th>Country Code</th>
+                            <th>Creation Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for amlCountry in amlCountries %}
                             <tr>
                                 <td><a href="{{ path('admin_country_edit', { 'couId': amlCountry.couId }) }}">{{ amlCountry.couName }}</a></td>
+                                <td>{{ amlCountry.couCode }}</td>
                                 <td>{% if amlCountry.couCreatedDate %}{{ amlCountry.couCreatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                             </tr>
                         {% endfor %}

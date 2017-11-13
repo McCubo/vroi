@@ -1,0 +1,73 @@
+<link href="{{ asset('vendor/datatables-plugins/dataTables.bootstrap.css') }}" rel="stylesheet">
+<link href="{{ asset('vendor/datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">
+<!-- /.panel-heading -->
+<form method="POST" data-action_url="{{ url('save_feedback') }}" id="feedback_form">
+    <label>Enter a new comment</label>
+    <input type="hidden" id="pro_id" value="{{ proId }}" />
+    <textarea rows="2" class="form-control" placeholder="Text Here" id="feedback_text" required="required"></textarea><br>
+    <button id="feedback_save_button" type="submit" class="btn btn-primary basic">Save</button><br>
+</form>
+
+<table id="feedback_table" class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Entered by</th>
+            <th>Date - Time</th>
+            <th>Comment</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for comment in aCommentList %}
+            <tr>
+                <td>{{ comment.id }}</td>
+                <td>{{ comment.use_name }}</td>
+                <td>{{ comment.date }}</td>
+                <td>{{ comment.comment }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables-plugins/dataTables.bootstrap.min.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        var oTable = $('#feedback_table').DataTable({
+            ordering: false,
+            info: false,
+            searching: false
+        });
+
+        $("form#feedback_form").submit(function () {
+            $("#feedback_save_button").prop('disabled', true);
+            $.ajax({
+                url: $("#feedback_form").data("action_url"),
+                dataType: 'json',
+                type: 'POST',
+                async: false,
+                data: {
+                    pro_id: $("#pro_id").val(),
+                    comment_text: $("#feedback_text").val()
+                },
+                success: function (data) {
+                    for (c = 0; c < data.error_list.length; c++) {
+                        $.growl.error({title: "Error", message: data.error_list[c]});
+                    }
+                    if (data.error_list.length === 0) {
+                        oTable.row.add([
+                            data.oData.id,
+                            data.oData.upload_by,
+                            data.oData.upload_date,
+                            data.oData.text
+                        ]).draw(false);
+                        $.growl.notice({title: "Added!", message: "Your feedback was successfully added!"});
+                    }
+                    $('#feedback_save_button').prop('disabled', false);
+                }
+            });
+            return false;
+        });
+    });
+</script>

@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\UploadFile;
 use AppBundle\Form\UploadFileType;
 use AppBundle\Entity\AmlProviderAttachment;
+use AppBundle\Entity\AmlProviderFeedback;
 
 class HomeController extends Controller {
 
@@ -33,6 +34,55 @@ class HomeController extends Controller {
         return $this->render("amlhome/index.html.twig", array(
                     "amlProviderList" => $amlProviderList
         ));
+    }
+
+    /**
+     * 
+     * @Route("/provider/counter", name="count_by_country")
+     */
+    public function getCountryCountAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $aStatList = $em->getRepository('AppBundle:AmlProvider')->getProviderCountByCountry();
+        return new JsonResponse($aStatList);
+    }
+
+    /**
+     * 
+     * @Route("/provider/modal/feedback/la_palabra_diagonal", name="modal_get_feedback")
+     */
+    public function getFeedbackPartialAction(Request $request) {
+        $proId = $request->query->get("proId");
+        $em = $this->getDoctrine()->getManager();
+        $aCommentList = $em->getRepository('AppBundle:AmlProviderFeedback')->getCommentListByProId($proId);
+        $html = $this->renderView("amlhome/feedback.html.twig", array("aCommentList" => $aCommentList, "proId" => $proId));
+        return new Response($html);
+    }
+
+    /**
+     * 
+     * @Route("/provider/feedback/save/save_feedback/internet/la_palabra_diagonal", name="save_feedback")
+     */
+    public function doSaveFeedback(Request $request) {
+        $aData = array("error_list" => array());
+        try {
+            $user = $this->getUser();
+            $em = $this->getDoctrine()->getManager();
+            $prodId = $request->request->get("pro_id");
+            $commentText = $request->request->get("comment_text");
+            $amlProviderFeedback = new AmlProviderFeedback();
+            $amlProviderFeedback->setPrfComment($commentText);
+            $amlProviderFeedback->setPrfProId($prodId);
+            $amlProviderFeedback->setPrfUseId($user->getUseId());
+            $em->persist($amlProviderFeedback);
+            $em->flush();
+            $aData["oData"]["id"] = $amlProviderFeedback->getPrfId();
+            $aData["oData"]["text"] = $amlProviderFeedback->getPrfComment();
+            $aData["oData"]["upload_by"] = $user->getPrintValue();
+            $aData["oData"]["upload_date"] = $amlProviderFeedback->getPrfDate()->format("Y-m-d H:i:s");
+        } catch (Exception $exc) {
+            array_push($aData, $exc->getTraceAsString());
+        }
+        return new JsonResponse($aData);
     }
 
     /**

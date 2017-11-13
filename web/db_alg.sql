@@ -555,3 +555,6 @@ ADD COLUMN `pat_original_name` VARCHAR(250) NOT NULL AFTER `pat_file_path`;
 
 ALTER TABLE `db_alg`.`aml_provider` 
 ADD COLUMN `pro_fax` VARCHAR(45) NOT NULL AFTER `pro_updated_date`;
+
+ALTER TABLE `db_alg`.`aml_country` 
+ADD COLUMN `cou_code` VARCHAR(5) NULL AFTER `cou_created_date`;

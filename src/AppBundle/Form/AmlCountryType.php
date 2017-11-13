@@ -12,7 +12,7 @@ class AmlCountryType extends AbstractType {
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('couName');
+        $builder->add('couName')->add("couCode");
     }
 
     /**

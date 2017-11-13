@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields= {"couName"}, message="There is already a Country with that name!")
+ * @UniqueEntity(fields= {"couCode"}, message="There is already a Configured Country with that code")
  */
 class AmlCountry {
 
@@ -23,6 +24,13 @@ class AmlCountry {
      * @ORM\Column(name="cou_name", type="string", length=100, nullable=false)
      */
     private $couName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cou_code", type="string", length=5, nullable=false)
+     */
+    private $couCode;
 
     /**
      * @var \DateTime
@@ -73,6 +81,14 @@ class AmlCountry {
 
     public function __toString() {
         return $this->couName;
+    }
+
+    function getCouCode() {
+        return $this->couCode;
+    }
+
+    function setCouCode($couCode) {
+        $this->couCode = $couCode;
     }
 
     /**
