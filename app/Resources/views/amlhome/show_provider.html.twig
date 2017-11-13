@@ -96,7 +96,11 @@
                                                                 <input style="margin-right: 5px;" type="text" disabled="disabled" value="{{ contact.prc_name }}" />
                                                                 <input style="margin-right: 5px;" type="text" disabled="disabled" value="{{ contact.prc_phone_number }}" />
                                                                 <input style="margin-right: 5px;" type="text" disabled="disabled" value="{{ contact.prc_job_title }}" />
-                                                                <div class="input-group-addon"><i class="fa fa-envelope-o"></i></div>
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn email_button" type="button" data-toggle="modal" data-contact_id="{{ contact.prc_id }}" data-action_url="{{ url('modal_get_email') }}">
+                                                                        <i class="fa fa-envelope"></i>
+                                                                    </button>
+                                                                </span>
                                                                 <input style="margin-right: 5px;" type="text" disabled="disabled" value="{{ contact.prc_email }}" />
                                                                 <button type="button" class="remove_contact" data-prc_id="{{contact.prc_id}}" >
                                                                     <img src="{{ asset('images/remove.png') }}" />
@@ -207,18 +211,41 @@
             </div>
         </div>
     </div>
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" id="main_modal_email">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" id="body_modal_email">
+
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('js/multiple-select.js') }}"></script>
     <script src="{{ asset('js/jquery.barrating.js') }}"></script>
     <script src="{{ asset('js/dynamic_forms.min.js') }}"></script>
     <script src="{{ asset('js/jquery.growl.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
     <script>
         function sleep(time) {
             return new Promise((resolve) => setTimeout(resolve, time));
         }
         $(document).ready(function () {
-
+            
+            $(".email_button").on("click", function () {
+                var iContact = $(this).data("contact_id");                
+                var sAction = $(this).data("action_url");
+                $.ajax({
+                    url: sAction,
+                    type: 'GET',
+                    data: {contact_id: iContact},
+                    async: false,
+                    success: function (data) {
+                        $("#body_modal_email").html(data);
+                        $("#main_modal_email").modal("show");
+                    }
+                });
+            });
+            
             $("#info_modal_button").on("click", function () {
                 var sAction = $(this).data("action_url");
                 $.ajax({

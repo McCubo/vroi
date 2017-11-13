@@ -48,6 +48,53 @@ class HomeController extends Controller {
 
     /**
      * 
+     * @Route("/provider/modal/email/la_palabra_diagonal", name="modal_get_email")
+     */
+    public function getEmailPartialAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $contactId = $request->query->get("contact_id");
+        $oContact = $em->getRepository('AppBundle:AmlProviderContact')->find($contactId);
+        $aEmailTemplate = $em->getRepository('AppBundle:AmlEmailTemplate')->findAll();
+        $html = $this->renderView("amlhome/send_email.html.twig", array("oContact" => $oContact, "aEmailTemplate" => $aEmailTemplate));
+        return new Response($html);
+    }
+
+    /**
+     * 
+     * @Route("/provider/modal/email/id/diagonal", name="modal_get_email_by_id")
+     */
+    public function getTemplateById(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $templateId = $request->query->get("template_id");
+        $oTemplate = $em->getRepository('AppBundle:AmlEmailTemplate')->find($templateId);
+        return new Response($oTemplate->getEmaBody());
+    }
+
+    /**
+     * 
+     * @Route("/provider/modal/email/send/diagonal", name="modal_send_email")
+     */
+    public function doActuallySendEmail(Request $request) {        
+        $aData = array("error_list" => array());
+        try {
+            $user = $this->getUser();
+            $sMessageTo = $request->request->get("emailTo");
+            $sEmailBody = $request->request->get("emailBody");
+            $sSubject = $request->request->get("emailSubject");
+            $message = (new \Swift_Message($sSubject))
+                    ->setFrom($user->getUseEmail())
+                    ->setTo($sMessageTo)
+                    ->setBody($sEmailBody, 'text/html');
+
+            $this->get('mailer')->send($message);
+        } catch (Exception $exc) {
+            array_push($aData["error_list"], $exc->getTraceAsString());
+        }
+        return new JsonResponse($aData);
+    }
+
+    /**
+     * 
      * @Route("/provider/modal/feedback/la_palabra_diagonal", name="modal_get_feedback")
      */
     public function getFeedbackPartialAction(Request $request) {
