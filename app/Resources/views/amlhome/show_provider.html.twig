@@ -53,7 +53,7 @@
                                             <label>Afiliation</label>
                                             <input type="text" class="form-control" disabled="disabled" value="{{ aProvider.pra_name }}" />
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" style="margin-bottom: 211px;">
                                             <label>Services</label> <br />
                                             <select name="pro_services[]" id="serviceListbox" multiple="multiple">
                                                 {% for amlService in amlServices %}
@@ -334,11 +334,16 @@
             });
         });
         $('#serviceListbox').multipleSelect({
+            onClose: function() {
+                 $("#serviceListbox").multipleSelect("open");
+            },            
             width: 460,
             multiple: true,
             multipleWidth: 400,
             filter: true,
-            selectAll: false
+            selectAll: false,
+            isOpen: true,
+            keepOpen: true
         });
         $('.stars').barrating({
             theme: 'fontawesome-stars'

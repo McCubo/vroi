@@ -50,7 +50,7 @@ class AmlProviderRelation {
         $this->prrCreatedDate = new \DateTime();
     }
 
-    function getPrrCreatedDate(): \DateTime {
+    function getPrrCreatedDate() {
         return $this->prrCreatedDate;
     }
 
