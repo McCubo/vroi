@@ -33,7 +33,7 @@
                             {{ app.user.printvalue }}<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="userList.html"><i class="fa fa-gear fa-fw"></i> Configure Personal Account</a>
+                            <li><a href="{{ path('change_password_custom') }}"><i class="fa fa-gear fa-fw"></i> Configure Personal Account</a>
                             </li>
                             <li class="divider"></li>
                             <li><a href="{{ path('logout') }}"><i class="fa fa-sign-out fa-fw"></i> Exit the System</a></li>

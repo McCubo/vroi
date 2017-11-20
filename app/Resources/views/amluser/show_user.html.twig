@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link href="{{ asset('css/jquery.growl.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Change my password</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-6">
+                <form name="appbundle_amluser" id="appbundle_amluser" method="post" data-action_url="{{ path('do_change_password_custom') }}">
+                    <div class="form-group">
+                        <label>New Password:</label>
+                        <input id="user_new_password" name="user_new_password" required="required" maxlength="45" class="form-control" type="password">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm new password:</label>
+                        <input id="user_new_password_confirm" name="user_new_password_confirm" required="required" maxlength="45" class="form-control" type="password">
+                    </div>
+                    <input class="btn btn-success" value="Update" type="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/jquery.growl.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#appbundle_amluser").submit(function () {
+                if ($('#user_new_password_confirm').val() === $('#user_new_password').val()) {
+                    var sAction = $(this).data("action_url");
+                    var oData = {
+                        password: $('#user_new_password_confirm').val()
+                    }
+                    $.ajax({
+                        url: sAction,
+                        type: "POST",
+                        dataType: "json",
+                        data: oData,
+                        success: function (data) {
+                            if (data.error_list.length === 0) {
+                                $.growl.notice({title: "Success!", message: "Your passsword has been successfully updated!"});
+                            } else {
+                                for (var c = 0; c < data.error_list.length; c++) {
+                                    $.growl.error({title: "Error!", message: data.error_list[c]});
+                                }
+                            }
+
+                        }
+                    });
+                } else {
+                    $.growl.error({title: "Error!", message: "Passwords don't match, Please try again"});
+                }
+                return false;
+            });
+        });
+    </script>    
+{% endblock %}

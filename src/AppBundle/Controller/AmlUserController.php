@@ -37,7 +37,7 @@ class AmlUserController extends Controller {
      * @Route("/new", name="admin_user_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request) {       
+    public function newAction(Request $request) {
         $amlUser = new Amluser();
         $form = $this->createForm('AppBundle\Form\AmlUserType', $amlUser);
         $form->handleRequest($request);
@@ -93,6 +93,36 @@ class AmlUserController extends Controller {
                     'amlUser' => $amlUser,
                     'form' => $editForm->createView(),
         ));
+    }
+
+    /**
+     *
+     * @Route("/myaccount/", name="change_password_custom")
+     */
+    public function showUserAction(Request $request) {
+        return $this->render('amluser/show_user.html.twig');
+    }
+
+    /**
+     *
+     * @Route("/myaccount/do/change/my/password", name="do_change_password_custom")
+     */
+    public function doActuallyUpdateUserPasswordAction(Request $request) {
+        $aData = array("error_list" => array());
+        try {
+            $amlUser = $this->getUser();
+            $sPassword = $request->request->get("password");
+            $em = $this->getDoctrine()->getManager();
+            $encoder = $this->container->get('security.password_encoder');
+            $encoded = $encoder->encodePassword($amlUser, $sPassword);
+            $amlUser->setUsePassword($encoded);
+            $em->persist($amlUser);
+            $em->flush();
+        } catch (Exception $exc) {
+            array_push($aData["error_list"], $exc->getTraceAsString());
+        }
+
+        return new \Symfony\Component\HttpFoundation\JsonResponse($aData);
     }
 
 }
