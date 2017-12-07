@@ -565,3 +565,8 @@ CREATE TABLE `db_alg`.`aml_email_template` (
   `ema_name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`ema_id`),
   UNIQUE INDEX `ema_name_UNIQUE` (`ema_name` ASC));
+
+
+# 2017.Dec.7
+ALTER TABLE `db_alg`.`aml_provider_contact` 
+CHANGE COLUMN `prc_job_title` `prc_job_title` VARCHAR(50) NULL ;

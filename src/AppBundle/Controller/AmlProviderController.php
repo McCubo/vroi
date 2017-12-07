@@ -69,8 +69,6 @@ class AmlProviderController extends Controller {
         $form = $this->createForm(UploadFileType::class, $uploadFile);
         $form->handleRequest($request);
         $oFile = $uploadFile->getFileDoc();
-        $fileName = md5(uniqid()) . '.' . $oFile->guessExtension();
-        $sOriginalFileName = $oFile->getClientOriginalName();
 
         $aFormParameter = $request->request->all();
         $amlProviders = $em->getRepository('AppBundle:AmlProvider')->findBy(array("proName" => $aFormParameter['provider']['name']));
@@ -88,12 +86,12 @@ class AmlProviderController extends Controller {
         $amlProvider->setProPraId($aFormParameter['provider']['affiliation']);
         $amlProvider->setProDescription($aFormParameter['provider']['description']);
         $amlProvider->setProSiteUrl($aFormParameter['provider']['url']);
-        $amlProvider->setProFax($aFormParameter['provider']['fax']);        
+        $amlProvider->setProFax($aFormParameter['provider']['fax']);
         $em->persist($amlProvider);
         $em->flush();
         array_push($aData["message_list"], "Provider ({$aFormParameter['provider']['name']}) was successfully added!");
         $proId = $amlProvider->getProId();
-        
+
         // Adding a new evaluation
         $amlProviderEvaluation = new AmlProviderEvaluation();
         $amlProviderEvaluation->setPreProId($proId);
@@ -101,7 +99,7 @@ class AmlProviderController extends Controller {
         $em->persist($amlProviderEvaluation);
         $em->flush();
         $preId = $amlProviderEvaluation->getPreId();
-        
+
         //  Adding scores to the evaluation
         foreach ($aFormParameter['evaluation'] as $key => $eval) {
             $amlProviderEvalScore = new AmlProviderEvalScore();
@@ -117,7 +115,9 @@ class AmlProviderController extends Controller {
             $amlProviderContact = new AmlProviderContact();
             $amlProviderContact->setPrcName($contact["name"]);
             $amlProviderContact->setPrcPhoneNumber($contact["phone"]);
-            $amlProviderContact->setPrcJobTitle($contact["job_title"]);
+            if (array_key_exists("job_title", $contact) && strlen($contact["job_title"]) > 0) {
+                $amlProviderContact->setPrcJobTitle($contact["job_title"]);
+            }
             $amlProviderContact->setPrcEmail($contact["email"]);
             $amlProviderContact->setPrcProId($proId);
             $em->persist($amlProviderContact);
@@ -134,8 +134,8 @@ class AmlProviderController extends Controller {
                 $em->flush();
             }
         }
-        
-        
+
+
         if (array_key_exists("pro_relations", $aFormParameter)) {
             foreach ($aFormParameter["pro_relations"] as $iProviderID) {
                 $amlProviderRelation = new AmlProviderRelation();
@@ -147,24 +147,30 @@ class AmlProviderController extends Controller {
         }
 
         # Saving feedback
-        $amlProviderFeedback = new AmlProviderFeedback();
-        $amlProviderFeedback->setPrfComment($aFormParameter["feedback_text"]);
-        $amlProviderFeedback->setPrfProId($proId);
-        $amlProviderFeedback->setPrfUseId($user->getUseId());
-        $em->persist($amlProviderFeedback);
-        $em->flush();
-                
-        // Saving attachment
-        $amlProviderAttachment = new AmlProviderAttachment();
-        $amlProviderAttachment->setPatComment($sOriginalFileName);
-        $amlProviderAttachment->setPatPro($amlProvider);
-        $amlProviderAttachment->setPatUse($user);
-        $amlProviderAttachment->setPatFilePath($fileName);
-        $amlProviderAttachment->setPatOriginalName($sOriginalFileName);
-        $em->persist($amlProviderAttachment);
-        $em->flush();
-        $oFile->move($this->getParameter('provider_file_directory'), $fileName);
-        
+        if (array_key_exists("feedback_text", $aFormParameter) && strlen($aFormParameter["feedback_text"]) > 0) {
+            $amlProviderFeedback = new AmlProviderFeedback();
+            $amlProviderFeedback->setPrfComment($aFormParameter["feedback_text"]);
+            $amlProviderFeedback->setPrfProId($proId);
+            $amlProviderFeedback->setPrfUseId($user->getUseId());
+            $em->persist($amlProviderFeedback);
+            $em->flush();
+        }
+
+        if (!is_null($oFile)) {
+            $fileName = md5(uniqid()) . '.' . $oFile->guessExtension();
+            $sOriginalFileName = $oFile->getClientOriginalName();
+            // Saving attachment
+            $amlProviderAttachment = new AmlProviderAttachment();
+            $amlProviderAttachment->setPatComment($sOriginalFileName);
+            $amlProviderAttachment->setPatPro($amlProvider);
+            $amlProviderAttachment->setPatUse($user);
+            $amlProviderAttachment->setPatFilePath($fileName);
+            $amlProviderAttachment->setPatOriginalName($sOriginalFileName);
+            $em->persist($amlProviderAttachment);
+            $em->flush();
+            $oFile->move($this->getParameter('provider_file_directory'), $fileName);
+        }
+
         // Returning JSON response
         return new JsonResponse($aData);
     }

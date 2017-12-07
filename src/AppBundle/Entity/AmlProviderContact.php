@@ -30,7 +30,7 @@ class AmlProviderContact {
     /**
      * @var string
      *
-     * @ORM\Column(name="prc_job_title", type="string", length=50, nullable=false)
+     * @ORM\Column(name="prc_job_title", type="string", length=50, nullable=true)
      */
     private $prcJobTitle;
 
