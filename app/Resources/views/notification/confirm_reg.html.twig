@@ -3,9 +3,9 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="base template for AmLog DbProviders system">
+        <meta name="description" content="base template for AmLog Db Vendors system">
         <meta name="author" content="cubiascaceres@gmail.com">
-        <title>{% block title %}AmLog DB.Providers{% endblock %}</title>
+        <title>{% block title %}AmLog DB. Vendors{% endblock %}</title>
         <style>
             .btn {
                 display: inline-block;
@@ -130,7 +130,7 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <h3>Hello {{ name }}</h3>
-                            <h4>Your email address ({{ email }}) has been linked to an user on the Database provider's system. To activate it, 
+                            <h4>Your email address ({{ email }}) has been linked to an user on the Database vendor's system. To activate it, 
                                 please click the button below</h4>
                             <br />
                             <a href="{{ absolute_url(path('user_confirm', {'token': token})) }}">

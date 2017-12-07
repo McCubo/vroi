@@ -4,9 +4,9 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="base template for AmLog DbProviders system">
+        <meta name="description" content="base template for AmLog Db Vendors system">
         <meta name="author" content="cubiascaceres@gmail.com">
-        <title>{% block title %}AmLog DB.Providers{% endblock %}</title>
+        <title>{% block title %}AmLog Vendor DB{% endblock %}</title>
         <link href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
         <link href="{{ asset('vendor/metisMenu/metisMenu.min.css') }}" rel="stylesheet">
         <link href="{{ asset('dist/css/sb-admin-2.css') }}" rel="stylesheet">
@@ -25,7 +25,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.html">AmLog ProviderDB</a>
+                    <a class="navbar-brand" href="index.html">AmLog Vendor DB</a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
@@ -48,19 +48,19 @@
                             </li>
                             {% if is_granted('ROLE_ADMIN') %}
                             <li>
-                                <a href="{{ path('provider_index') }}"><i class="fa fa-save fa-fw"></i> Add provider</a>
+                                <a href="{{ path('provider_index') }}"><i class="fa fa-save fa-fw"></i> Add Vendor</a>
                             </li>
                             <li>
-                                <a href="{{ path('admin_provider_type_index') }}"><i class="fa fa-cogs fa-fw"></i> Configure Provider Type</a>
+                                <a href="{{ path('admin_provider_type_index') }}"><i class="fa fa-cogs fa-fw"></i> Configure Vendor Type</a>
                             </li>
                             <li>
-                                <a href="{{ path('admin_provider_group_index') }}"><i class="fa fa-object-group fa-fw"></i> Configure Provider Group</a>
+                                <a href="{{ path('admin_provider_group_index') }}"><i class="fa fa-object-group fa-fw"></i> Configure Vendor Group</a>
                             </li>
                             <li>
-                                <a href="{{ path('admin_provider_afiliation_index') }}"><i class="fa fa-exchange fa-fw"></i> Configure Provider Afiliation</a>
+                                <a href="{{ path('admin_provider_afiliation_index') }}"><i class="fa fa-exchange fa-fw"></i> Configure Vendor Afiliation</a>
                             </li>
                             <li>
-                                <a href="{{ path('admin_service_index') }}"><i class="fa fa-server fa-fw"></i> Configure Provider Services</a>
+                                <a href="{{ path('admin_service_index') }}"><i class="fa fa-server fa-fw"></i> Configure Vendor Services</a>
                             </li>
                             <li>
                                 <a href="{{ path('admin_country_index') }}"><i class="fa fa-flag-o fa-fw"></i> Configure Countries</a>
