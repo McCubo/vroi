@@ -73,7 +73,7 @@ class AmlProviderController extends Controller {
         $aFormParameter = $request->request->all();
         $amlProviders = $em->getRepository('AppBundle:AmlProvider')->findBy(array("proName" => $aFormParameter['provider']['name']));
         if (count($amlProviders) > 0) {
-            array_push($aData["error_list"], "There is already a provider with that name");
+            array_push($aData["error_list"], "There is already a vendor with that name");
             return new JsonResponse($aData);
         }
         $amlProvider = new AmlProvider();
@@ -89,7 +89,7 @@ class AmlProviderController extends Controller {
         $amlProvider->setProFax($aFormParameter['provider']['fax']);
         $em->persist($amlProvider);
         $em->flush();
-        array_push($aData["message_list"], "Provider ({$aFormParameter['provider']['name']}) was successfully added!");
+        array_push($aData["message_list"], "Vendor ({$aFormParameter['provider']['name']}) was successfully added!");
         $proId = $amlProvider->getProId();
 
         // Adding a new evaluation
