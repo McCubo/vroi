@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
     <link href="{{ asset('css/multiple-select.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/multi-select.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/fontawesome-stars.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/jquery.growl.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
@@ -46,6 +47,10 @@
                                             <label>Vendor Type</label>
                                             <input type="text" class="form-control" disabled="disabled" value="{{ aProvider.prt_name }}" />
                                         </div>
+                                        <div class="form-group">
+                                            <label>Vendor site URL</label>
+                                            <input class="form-control" disabled="disabled" value="{{ aProvider.pro_site_url }}">
+                                        </div>
                                     </div>
                                     <!-- Column left-->
                                     <div class="col-lg-6">
@@ -53,7 +58,7 @@
                                             <label>Afiliation</label>
                                             <input type="text" class="form-control" disabled="disabled" value="{{ aProvider.pra_name }}" />
                                         </div>
-                                        <div class="form-group" style="margin-bottom: 211px;">
+                                        <div class="form-group">
                                             <label>Services</label> <br />
                                             <select name="pro_services[]" id="serviceListbox" multiple="multiple">
                                                 {% for amlService in amlServices %}
@@ -75,10 +80,6 @@
                                             <label>Description</label>
                                             <textarea name="provider[description]" class="form-control" rows="5" id="comment" disabled="disabled">{{ aProvider.pro_description}}</textarea>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Vendor site URL</label>
-                                            <input class="form-control" disabled="disabled" value="{{ aProvider.pro_site_url }}">
-                                        </div>                                            
                                     </div>
 
                                     <!-- End Contact list-->
@@ -221,6 +222,7 @@
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('js/multiple-select.js') }}"></script>
+    <script src="{{ asset('js/jquery.multi-select.js') }}"></script>
     <script src="{{ asset('js/jquery.barrating.js') }}"></script>
     <script src="{{ asset('js/dynamic_forms.min.js') }}"></script>
     <script src="{{ asset('js/jquery.growl.js') }}"></script>
@@ -333,30 +335,19 @@
                 return false;
             });
         });
-        $('#serviceListbox').multipleSelect({
-            onClose: function() {
-                 $("#serviceListbox").multipleSelect("open");
-            },            
-            width: 460,
-            multiple: true,
-            multipleWidth: 400,
-            filter: true,
-            selectAll: false,
-            isOpen: true,
-            keepOpen: true
-        });
+        
+        $('#serviceListbox').multiSelect();
+        $('#serviceListbox').multiSelect('select', {{ aProvider.service_list|json_encode|raw }});
+        
         $('.stars').barrating({
             theme: 'fontawesome-stars'
         });
-        $('#providerRelationListbox').multipleSelect({
-            width: 460,
-            multiple: true,
-            multipleWidth: 400,
-            filter: true,
-            selectAll: false
-        });
-        $("#providerRelationListbox").multipleSelect("setSelects", {{ aProvider.relation_list|json_encode|raw }});
-        $("#serviceListbox").multipleSelect("setSelects", {{ aProvider.service_list|json_encode|raw }});
+        
+        $('#providerRelationListbox').multiSelect();
+        $('#providerRelationListbox').multiSelect('select', {{ aProvider.relation_list|json_encode|raw }});
+        
+        // $("#providerRelationListbox").multipleSelect("setSelects", );
+        // $("#serviceListbox").multipleSelect("setSelects", );
 
         var dynamicForms = new DynamicForms();
         dynamicForms.automaticallySetupForm();
