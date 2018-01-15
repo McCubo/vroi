@@ -242,6 +242,20 @@ class HomeController extends Controller {
         $proId = $aFormParameter["provider"]["id"];
         $em = $this->getDoctrine()->getManager();
 
+        #Edit Current Provider        
+        $proName = $aFormParameter["provider"]["name"];
+        $amlProviders = $em->getRepository('AppBundle:AmlProvider')->findBy(array("proName" => $proName));
+        foreach ($amlProviders as $amlProTemp) {            
+            if ($amlProTemp->getProId() != $proId) {
+                array_push($aData["error_list"], "There is already a vendor with that name");
+                return new JsonResponse($aData);
+            }
+        }
+        $amlProvider = $em->getRepository("AppBundle:AmlProvider")->find($proId);
+        $amlProvider->setProName($proName);
+        $em->persist($amlProvider);
+        $em->flush();
+
         // Adding a new evaluation
         $amlProviderEvaluation = new AmlProviderEvaluation();
         $amlProviderEvaluation->setPreProId($proId);
