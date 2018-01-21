@@ -570,3 +570,79 @@ CREATE TABLE `db_alg`.`aml_email_template` (
 # 2017.Dec.7
 ALTER TABLE `db_alg`.`aml_provider_contact` 
 CHANGE COLUMN `prc_job_title` `prc_job_title` VARCHAR(50) NULL ;
+
+# 2018.Jan.21
+ALTER TABLE `db_alg`.`aml_provider_attachment` 
+DROP FOREIGN KEY `FK_provider_file_pro_id`;
+ALTER TABLE `db_alg`.`aml_provider_attachment` 
+ADD CONSTRAINT `FK_provider_file_pro_id`
+  FOREIGN KEY (`pat_pro_id`)
+  REFERENCES `db_alg`.`aml_provider` (`pro_id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `db_alg`.`aml_provider_contact` 
+DROP FOREIGN KEY `FK_provider_contact_provider`;
+ALTER TABLE `db_alg`.`aml_provider_contact` 
+ADD CONSTRAINT `FK_provider_contact_provider`
+  FOREIGN KEY (`prc_pro_id`)
+  REFERENCES `db_alg`.`aml_provider` (`pro_id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `db_alg`.`aml_provider_eval_score` 
+DROP FOREIGN KEY `FK_pes_evp`,
+DROP FOREIGN KEY `FK_pes_pre`;
+ALTER TABLE `db_alg`.`aml_provider_eval_score` 
+ADD CONSTRAINT `FK_pes_evp`
+  FOREIGN KEY (`pes_evp_id`)
+  REFERENCES `db_alg`.`aml_evaluation_point` (`evp_id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+ADD CONSTRAINT `FK_pes_pre`
+  FOREIGN KEY (`pes_pre_id`)
+  REFERENCES `db_alg`.`aml_provider_evaluation` (`pre_id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `db_alg`.`aml_provider_evaluation` 
+DROP FOREIGN KEY `FK_pre_provider`;
+ALTER TABLE `db_alg`.`aml_provider_evaluation` 
+ADD CONSTRAINT `FK_pre_provider`
+  FOREIGN KEY (`pre_pro_id`)
+  REFERENCES `db_alg`.`aml_provider` (`pro_id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `db_alg`.`aml_provider_feedback` 
+DROP FOREIGN KEY `FK_prf_pro_id`;
+ALTER TABLE `db_alg`.`aml_provider_feedback` 
+ADD CONSTRAINT `FK_prf_pro_id`
+  FOREIGN KEY (`prf_pro_id`)
+  REFERENCES `db_alg`.`aml_provider` (`pro_id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `db_alg`.`aml_provider_relation` 
+DROP FOREIGN KEY `FK_provider_relation_child`,
+DROP FOREIGN KEY `FK_provider_relation_parent`;
+ALTER TABLE `db_alg`.`aml_provider_relation` 
+ADD CONSTRAINT `FK_provider_relation_child`
+  FOREIGN KEY (`prr_child_pro_id`)
+  REFERENCES `db_alg`.`aml_provider` (`pro_id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+ADD CONSTRAINT `FK_provider_relation_parent`
+  FOREIGN KEY (`prr_parent_pro_id`)
+  REFERENCES `db_alg`.`aml_provider` (`pro_id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `db_alg`.`aml_provider_service` 
+DROP FOREIGN KEY `FK_provider_provider`;
+ALTER TABLE `db_alg`.`aml_provider_service` 
+ADD CONSTRAINT `FK_provider_provider`
+  FOREIGN KEY (`prs_pro_id`)
+  REFERENCES `db_alg`.`aml_provider` (`pro_id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;

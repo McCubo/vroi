@@ -59,6 +59,23 @@ class AmlProviderController extends Controller {
 
     /**
      * 
+     * @Route("/admin/provider/deleto", name="do_delete_provider")
+     */
+    public function deleteProvider(Request $request) {
+        $aData = array("message_list" => array());
+        $em = $this->getDoctrine()->getManager();
+        $proId = $request->query->get("pro_id");
+        $amlProvider = $em->getRepository('AppBundle:AmlProvider')->find($proId);
+        if (is_null($amlProvider)) {
+            throw $this->createNotFoundException("Provider not Found");
+        }
+        $em->remove($amlProvider);
+        $em->flush();
+        return new JsonResponse($aData);
+    }
+
+    /**
+     * 
      * @Route("/admin/provider_save", name="provider_save")
      */
     public function doSaveAction(Request $request) {
