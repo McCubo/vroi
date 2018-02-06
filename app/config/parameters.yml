@@ -8,6 +8,6 @@ parameters:
     database_password: cubias
     mailer_transport: smtp
     mailer_host: 127.0.0.1
-    mailer_user: mccubo.spam
-    mailer_password: spam#364009
+    mailer_user: davelar@americalogisticsgroup.com
+    mailer_password: guatemala2010
     secret: c128610fcd1dbb149293cc0ae92652596ddd05f8
