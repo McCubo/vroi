@@ -57,7 +57,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Rating</th>
-                                    <th>Web site</th>
+                                    <th>Services</th>
                                     <th>Main Phone</th>
                                     <th>Country Based</th>
                                     <th>Action</th>
@@ -67,7 +67,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Rating</th>
-                                    <th>Web site</th>
+                                    <th>Services</th>
                                     <th>Main Phone</th>
                                     <th>country</th>
                                     <th>Action</th>
@@ -78,7 +78,7 @@
                                     <tr>
                                         <td><a href="{{ path('provider_edit', { 'proId': amlProvider.pro_id }) }}">{{ amlProvider.pro_name }}</a></td>
                                         <td>{{ amlProvider.rating }}</td>
-                                        <td>{{ amlProvider.pro_site_url }}</td>
+                                        <td>{{ amlProvider.services }}</td>
                                         <td>{{ amlProvider.pro_main_phone_number }}</td>
                                         <td>{{ amlProvider.cou_name }}</td>
                                         <td><a class="delete_link" href="#" data-pro_id="{{amlProvider.pro_id}}" data-action_url="{{ path('do_delete_provider')}}">Delete</a></td>

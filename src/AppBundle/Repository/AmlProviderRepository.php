@@ -29,15 +29,18 @@ class AmlProviderRepository extends EntityRepository {
     }
 
     public function getProviderRankList() {
-        $sSqlQuery = "select"
-                . " pro.pro_id, pro.pro_name, avg(pes.pes_score) as rating, "
-                . " pro.pro_site_url,pro.pro_main_phone_number,cou.cou_name"
-                . " from aml_provider pro"
-                . " inner join aml_provider_evaluation pre ON pre.pre_pro_id = pro.pro_id"
-                . " inner join aml_provider_eval_score pes ON pes.pes_pre_id = pre.pre_id"
-                . " inner join aml_city cit ON pro.pro_cit_id = cit.cit_id"
-                . " inner join aml_country cou ON cou.cou_id = cit.cit_cou_id"
-                . " group by pro.pro_id, pro.pro_name, pro.pro_address;";
+        $sSqlQuery = "select
+                pro.pro_id, pro.pro_name, avg(pes.pes_score) as rating, 
+                pro.pro_site_url,pro.pro_main_phone_number,cou.cou_name,
+                GROUP_CONCAT(DISTINCT srv.ser_name SEPARATOR ', ') services
+                from aml_provider pro
+                inner join aml_provider_evaluation pre ON pre.pre_pro_id = pro.pro_id
+                inner join aml_provider_eval_score pes ON pes.pes_pre_id = pre.pre_id
+                inner join aml_city cit ON pro.pro_cit_id = cit.cit_id
+                inner join aml_country cou ON cou.cou_id = cit.cit_cou_id
+                left join  aml_provider_service srvpro ON pro.pro_id = srvpro.prs_pro_id
+                left join aml_service srv ON srvpro.prs_ser_id = srv.ser_id
+                group by pro.pro_id, pro.pro_name, pro.pro_address";
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sSqlQuery);
         $stmt->execute();
