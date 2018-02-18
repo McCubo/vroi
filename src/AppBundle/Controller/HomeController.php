@@ -84,6 +84,7 @@ class HomeController extends Controller {
             $message = (new \Swift_Message($sSubject))
                     ->setFrom($user->getUseEmail())
                     ->setTo($sMessageTo)
+                    ->setReplyTo($user->getUseEmail())
                     ->setBody($sEmailBody, 'text/html');
 
             $this->get('mailer')->send($message);
