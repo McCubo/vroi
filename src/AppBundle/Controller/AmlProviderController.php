@@ -102,7 +102,9 @@ class AmlProviderController extends Controller {
         $amlProvider->setProPrtId($aFormParameter['provider']['type']);
         $amlProvider->setProPraId($aFormParameter['provider']['affiliation']);
         $amlProvider->setProDescription($aFormParameter['provider']['description']);
-        $amlProvider->setProSiteUrl($aFormParameter['provider']['url']);
+        if (array_key_exists("url", $aFormParameter['provider'])) {
+         $amlProvider->setProSiteUrl($aFormParameter['provider']['url']);   
+        }        
         $amlProvider->setProFax($aFormParameter['provider']['fax']);
         $em->persist($amlProvider);
         $em->flush();
