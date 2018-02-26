@@ -338,11 +338,8 @@
         
         $('#serviceListbox').multiSelect();
         
-        var multiselectopt = {selectableHeader : "Available", selectionHeader: "Recomended for"};
-
-        $('#serviceListbox').multiSelect(multiselectopt);
         
-        $('#serviceListbox').multiSelect('select', {{ aProvider.service_list|json_encode|raw }});
+        $('#serviceListbox').multiSelect('select',selectableHeader : "Available", selectionHeader: "Recomended for", {{ aProvider.service_list|json_encode|raw }});
         
         
         
