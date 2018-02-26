@@ -339,6 +339,10 @@
         $('#serviceListbox').multiSelect();
         $('#serviceListbox').multiSelect('select', {{ aProvider.service_list|json_encode|raw }});
         
+        var multiselectopt = {selectableHeader : "Available", selectionHeader: "Recomended for"}
+
+        $('#serviceListbox').multiSelect(multiselectopt);
+        
         $('.stars').barrating({
             theme: 'fontawesome-stars'
         });
