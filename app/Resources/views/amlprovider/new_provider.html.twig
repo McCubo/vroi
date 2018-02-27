@@ -256,15 +256,17 @@
             });
         });
 
-        var multiselectopt = {selectableHeader : "Available", selectionHeader: "Recomended for"}
+        //var multiselectopt = {selectableHeader : "Available", selectionHeader: "Recomended for"}
 
         $('#serviceListbox').multiSelect();
+        
+        
 
         $('.stars').barrating({
             theme: 'fontawesome-stars'
         });
 
-        $('#providerRelationListbox').multiSelect(multiselectopt);
+        $('#providerRelationListbox').multiSelect();
 
         var dynamicForms = new DynamicForms();
         dynamicForms.automaticallySetupForm();
