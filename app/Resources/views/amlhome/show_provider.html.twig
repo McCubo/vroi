@@ -60,11 +60,10 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Services</label> <br />
+                                            <strong>Available ----------------------------- Recomended for</strong> <br />
                                             <select name="pro_services[]" id="serviceListbox" multiple="multiple">
                                                 {% for amlService in amlServices %}
-                                                    <option value="{{ amlService.serId }}">
-                                                        {{ amlService.serName }}
-                                                    </option>
+                                                    <option value="{{ amlService.serId }}">{{ amlService.serName }}</option>
                                                 {% endfor%}
                                             </select>
                                         </div>
@@ -337,10 +336,7 @@
         });
         
         $('#serviceListbox').multiSelect();
-        
-        
-        $('#serviceListbox').multiSelect('select',selectableHeader : "Available", selectionHeader: "Recomended for", {{ aProvider.service_list|json_encode|raw }});
-        
+        $('#serviceListbox').multiSelect('select', {{ aProvider.service_list|json_encode|raw }});
         
         
         $('.stars').barrating({
