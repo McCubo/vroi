@@ -69,6 +69,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="text1"> Is this vendor related to any other vendor?</label><br />
+                                            <strong>Available ----------------------------- Related to</strong> <br />
                                             <select name="pro_relations[]" id="providerRelationListbox" multiple="multiple" style="min-width: 316px;">
                                                 {% for amlProvider in amlProviders %}
                                                     <option value="{{ amlProvider.proId }}">{{ amlProvider.proName }}</option>
